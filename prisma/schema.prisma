@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Establishment {
+  id                   String                @id @default(uuid())
+  name                 String
+  address              String?
+  phone                String?
+  description          String?
+  employees            Employee[]
+  calendarIntegrations CalendarIntegration[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  isDeleted            Boolean               @default(false)
+  deletedAt            DateTime?
+}
+
+model Employee {
+  id              String          @id @default(uuid())
+  name            String
+  email           String          @unique
+  password        String
+  establishment   Establishment   @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  establishmentId String
+  absences        Absence[]
+  services        Service[]
+  operatingHours  OperatingHour[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  isDeleted       Boolean         @default(false)
+  deletedAt       DateTime?
+}
+
+model OperatingHour {
+  id            String         @id @default(uuid())
+  employee      Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId    String
+  dayOfWeek     DayOfWeek
+  specificDate  DateTime?
+  isAbsence     Boolean        @default(false)
+  timeIntervals TimeInterval[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  isDeleted     Boolean        @default(false)
+  deletedAt     DateTime?
+}
+
+model TimeInterval {
+  id              String        @id @default(uuid())
+  operatingHour   OperatingHour @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
+  operatingHourId String
+  startTime       DateTime
+  endTime         DateTime
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  isDeleted       Boolean       @default(false)
+  deletedAt       DateTime?
+}
+
+model Service {
+  id              String       @id @default(uuid())
+  employee        Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId      String
+  name            String
+  description     String?
+  durationMinutes Int
+  price           Float
+  schedulings     Scheduling[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  isDeleted       Boolean      @default(false)
+  deletedAt       DateTime?
+}
+
+model User {
+  id          String       @id @default(uuid())
+  name        String
+  phone       String       @unique
+  schedulings Scheduling[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isDeleted   Boolean      @default(false)
+  deletedAt   DateTime?
+}
+
+model Scheduling {
+  id             String           @id @default(uuid())
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  service        Service          @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId      String
+  schedulingTime DateTime
+  status         SchedulingStatus
+  notes          String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  isDeleted      Boolean          @default(false)
+  deletedAt      DateTime?
+}
+
+model CalendarIntegration {
+  id              String        @id @default(uuid())
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  establishmentId String
+  calendarType    CalendarType
+  eventId         String
+  status          String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now())
+  isDeleted       Boolean       @default(false)
+  deletedAt       DateTime?
+}
+
+model Absence {
+  id         String    @id @default(uuid())
+  employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId String
+  date       DateTime
+  reason     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  isDeleted  Boolean   @default(false)
+  deletedAt  DateTime?
+}
+
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+enum CalendarType {
+  GOOGLE_CALENDAR
+  OUTLOOK_CALENDAR
+  APPLE_CALENDAR
+  NOTION_CALENDAR
+}
+
+enum SchedulingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
