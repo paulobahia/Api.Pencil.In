@@ -1,4 +1,4 @@
-www-- CreateEnum
+-- CreateEnum
 CREATE TYPE "DayOfWeek" AS ENUM ('SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY');
 
 -- CreateEnum
