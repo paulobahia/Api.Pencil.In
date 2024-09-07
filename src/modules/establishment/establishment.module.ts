@@ -1,6 +1,6 @@
 import { Module, Provider } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
-import { EstablishmentController } from "./interfaces/establishment.controller";
+import { EstablishmentController } from "./controllers/establishment.controller";
 import { PrismaService } from "src/infrastructure/database/prisma.service";
 import { InjectionToken } from "./injection-token";
 import { EstablishmentQueryImplement } from "./queries/implements/establishment.implement";
