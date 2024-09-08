@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsDate, IsBoolean } from 'class-validator';
-import { FindEstablishmentResult } from '../queries/implements/find-establishment.result';
 
-class Establishment extends FindEstablishmentResult {
+class Establishment {
 
     @ApiProperty()
     @IsString()

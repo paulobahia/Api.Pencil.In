@@ -1,16 +1,13 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { FindEstablishmentQuery } from "../implements/find-establishment.query";
 import { FindEstablishmentResult } from "../implements/find-establishment.result";
-import { Inject } from "@nestjs/common";
-import { InjectionToken } from "../../injection-token";
-import { EstablishmentQuery } from "../../interfaces/establishment.query";
+import { EstablishmentRepository } from "../../interfaces/establishment.interface";
 
 @QueryHandler(FindEstablishmentQuery)
 export class FindEstablishmentHandler implements IQueryHandler<FindEstablishmentQuery, FindEstablishmentResult> {
-    @Inject(InjectionToken.ESTABLISHMENT_QUERY)
-    private readonly establishmentQuery: EstablishmentQuery
+    private readonly establishmentRepository: EstablishmentRepository
 
-    execute(): Promise<FindEstablishmentResult> {
-        return this.establishmentQuery.find()
+    async execute(): Promise<FindEstablishmentResult> {
+        return await this.establishmentRepository.find()
     }
 }

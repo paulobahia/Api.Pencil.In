@@ -1,5 +1,6 @@
 import { Establishment } from "@prisma/client";
 import { EstablishmentEntity } from "../../entities/establishment.entity";
+import { EstablishmentModel } from "../../dtos/establishment.model";
 
 export class EstablishmentMapper {
   static toDomain(raw: Establishment): EstablishmentEntity {
@@ -14,5 +15,19 @@ export class EstablishmentMapper {
       updatedAt: raw.updatedAt,
       deletedAt: raw.deletedAt
     }
+  }
+
+  static toModel(entity: Establishment): EstablishmentModel {
+    return {
+      id: entity.id,
+      name: entity.name,
+      address: entity.address,
+      phone: entity.phone,
+      description: entity.description,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      isDeleted: entity.isDeleted,
+      deletedAt: entity.deletedAt,
+    };
   }
 }
