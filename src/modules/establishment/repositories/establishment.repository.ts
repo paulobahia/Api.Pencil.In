@@ -25,6 +25,6 @@ export class EstablishmentRepositoryImplement implements EstablishmentRepository
 
         if (!establishment) return null;
 
-        return EstablishmentMapper.toModel(establishment);
+        return EstablishmentMapper.toDomain(establishment);
     }
 }
