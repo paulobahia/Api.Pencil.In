@@ -4,6 +4,7 @@ import { Inject, NotFoundException } from "@nestjs/common"
 import { InjectionToken } from "src/modules/injection-token"
 import { EstablishmentRepository } from "src/modules/establishment/interfaces/establishment.interface"
 import { EmployeeRepository } from "../../interfaces/employee-repository.interface"
+import { UpdateEmployeeModel } from "../../models/update-employee.model"
 
 @CommandHandler(UpdateEmployeeCommand)
 export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeCommand, void> {
@@ -14,7 +15,7 @@ export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeComm
 
   async execute(command: UpdateEmployeeCommand): Promise<void> {
     const establishment = await this.establishmentRepository.findById(command.establishmentId)
-    const { id, email, name, establishmentId } = command
+    const { establishmentId } = command
 
     if (!establishment) {
       throw new NotFoundException()
@@ -26,6 +27,8 @@ export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeComm
       throw new NotFoundException()
     }
 
-    await this.employeeRepository.update(id, { name, email }, establishmentId)
+    const updateEmployee = new UpdateEmployeeModel(establishmentId, command)
+
+    await this.employeeRepository.update(updateEmployee)
   }
 }

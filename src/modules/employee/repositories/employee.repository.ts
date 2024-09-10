@@ -3,9 +3,11 @@ import { PrismaService } from "src/infrastructure/database/prisma.service";
 import { FindEmployeeResult } from "../queries/implements/find-employee.result";
 import { EmployeeMapper } from "../queries/mappers/employee.mapper";
 import { EmployeeRepository } from "../interfaces/employee-repository.interface";
-import { CreateEmployeeDto } from "../dtos/create-employee.dto";
-import { UpdateEmployeeDto } from "../dtos/update-employee.dto";
 import { FindEmployeeByIdResult } from "../queries/implements/find-employee-by-id.result";
+import { CreateEmployeeRequestDto } from "../dtos/create-employee-request.dto";
+import { UpdateEmployeeRequestDto } from "../dtos/update-employee-request-param.dto";
+import { CreateEmployeeModel } from "../models/create-employee.model";
+import { UpdateEmployeeModel } from "../models/update-employee.model";
 
 @Injectable()
 export class EmployeeRepositoryImplement implements EmployeeRepository {
@@ -38,7 +40,7 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     return { employees: employees.map(EmployeeMapper.toDomain) };
   }
 
-  async create(employee: CreateEmployeeDto): Promise<void> {
+  async create(employee: CreateEmployeeModel): Promise<void> {
     const { email, name, password, establishmentId } = employee
 
     await this.prisma.employee.create({
@@ -51,8 +53,8 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     })
   }
 
-  async update(id: string, employee: UpdateEmployeeDto, establishmentId: string) {
-    const { email, name } = employee
+  async update(employee: UpdateEmployeeModel) {
+    const { id, email, name, establishmentId } = employee
 
     await this.prisma.employee.update({
       where: {
