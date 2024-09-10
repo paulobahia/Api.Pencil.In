@@ -1,8 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 class Service {
-
   @ApiProperty()
   @IsString()
   readonly id: string;
@@ -37,7 +42,7 @@ class Service {
 
   @ApiProperty()
   @IsBoolean()
-  readonly isDeleted: Boolean;
+  readonly isDeleted: boolean;
 
   @ApiProperty()
   @IsDate()

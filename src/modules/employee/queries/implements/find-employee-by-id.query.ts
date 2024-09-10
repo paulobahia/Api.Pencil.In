@@ -1,5 +1,8 @@
-import { IQuery } from "@nestjs/cqrs";
+import { IQuery } from '@nestjs/cqrs';
 
 export class FindEmployeeByIdQuery implements IQuery {
-  constructor(readonly id: string, readonly establishmentId: string) { }
+  constructor(
+    readonly id: string,
+    readonly establishmentId: string,
+  ) {}
 }

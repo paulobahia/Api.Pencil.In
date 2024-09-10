@@ -1,4 +1,4 @@
-import { ICommand } from "@nestjs/cqrs";
+import { ICommand } from '@nestjs/cqrs';
 
 export class CreateServiceCommand implements ICommand {
   constructor(
@@ -7,5 +7,5 @@ export class CreateServiceCommand implements ICommand {
     readonly description: string,
     readonly durationMinutes: number,
     readonly price: number,
-  ) { }
+  ) {}
 }

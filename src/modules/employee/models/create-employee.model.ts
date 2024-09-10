@@ -1,4 +1,4 @@
-import { CreateEmployeeCommand } from "../commands/implements/create-employee.command";
+import { CreateEmployeeCommand } from '../commands/implements/create-employee.command';
 
 export class CreateEmployeeModel {
   readonly name: string;

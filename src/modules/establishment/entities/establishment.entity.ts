@@ -6,6 +6,6 @@ export class EstablishmentEntity {
   description: string | null;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: Boolean;
+  isDeleted: boolean;
   deletedAt: Date | null;
 }

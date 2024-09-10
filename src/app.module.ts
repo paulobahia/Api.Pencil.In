@@ -5,7 +5,12 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { ServiceModule } from './modules/service/service.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), EstablishmentModule, EmployeeModule, ServiceModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    EstablishmentModule,
+    EmployeeModule,
+    ServiceModule,
+  ],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

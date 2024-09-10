@@ -1,5 +1,5 @@
-import { Service } from "@prisma/client";
-import { ServiceEntity } from "../../entities/service.entity";
+import { Service } from '@prisma/client';
+import { ServiceEntity } from '../../entities/service.entity';
 
 export class ServiceMapper {
   static toDomain(raw: Service): ServiceEntity {
@@ -13,7 +13,7 @@ export class ServiceMapper {
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
       isDeleted: raw.isDeleted,
-      deletedAt: raw.deletedAt
-    }
+      deletedAt: raw.deletedAt,
+    };
   }
 }

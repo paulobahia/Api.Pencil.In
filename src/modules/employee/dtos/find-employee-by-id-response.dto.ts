@@ -1,8 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsDate, IsOptional, IsString } from 'class-validator';
 
 export class FindEmployeeByIdResponseDto {
-
   @ApiProperty()
   @IsString()
   readonly id: string;
@@ -25,7 +24,7 @@ export class FindEmployeeByIdResponseDto {
 
   @ApiProperty()
   @IsBoolean()
-  isDeleted: Boolean;
+  isDeleted: boolean;
 
   @ApiProperty()
   @IsDate()

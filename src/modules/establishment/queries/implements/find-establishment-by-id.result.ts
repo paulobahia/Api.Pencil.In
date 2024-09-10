@@ -1,4 +1,4 @@
-import { IQueryResult } from "@nestjs/cqrs";
+import { IQueryResult } from '@nestjs/cqrs';
 
 export class FindEstablishmentByIdResult implements IQueryResult {
   constructor(
@@ -9,7 +9,7 @@ export class FindEstablishmentByIdResult implements IQueryResult {
     readonly description: string | null,
     readonly createdAt: Date,
     readonly updatedAt: Date,
-    readonly isDeleted: Boolean,
-    readonly deletedAt: Date | null
-  ) { }
+    readonly isDeleted: boolean,
+    readonly deletedAt: Date | null,
+  ) {}
 }

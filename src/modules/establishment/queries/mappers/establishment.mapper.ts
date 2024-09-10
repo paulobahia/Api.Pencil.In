@@ -1,5 +1,5 @@
-import { Establishment } from "@prisma/client";
-import { EstablishmentEntity } from "../../entities/establishment.entity";
+import { Establishment } from '@prisma/client';
+import { EstablishmentEntity } from '../../entities/establishment.entity';
 
 export class EstablishmentMapper {
   static toDomain(raw: Establishment): EstablishmentEntity {
@@ -12,7 +12,7 @@ export class EstablishmentMapper {
       isDeleted: raw.isDeleted,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-      deletedAt: raw.deletedAt
-    }
+      deletedAt: raw.deletedAt,
+    };
   }
 }

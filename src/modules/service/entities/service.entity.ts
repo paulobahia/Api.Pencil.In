@@ -7,6 +7,6 @@ export class ServiceEntity {
   establishmentId: string;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: Boolean;
+  isDeleted: boolean;
   deletedAt: Date | null;
 }

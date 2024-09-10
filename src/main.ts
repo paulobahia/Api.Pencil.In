@@ -5,11 +5,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({ credentials: true })
+  app.enableCors({ credentials: true });
 
   const config = new DocumentBuilder()
     .setTitle('Pencil.In API')
-    .setDescription('API para gerenciar os agendamentos da plataforma Pencil.In')
+    .setDescription(
+      'API para gerenciar os agendamentos da plataforma Pencil.In',
+    )
     .setVersion('1.0')
     .addTag('endpoints')
     .build();

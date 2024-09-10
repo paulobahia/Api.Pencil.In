@@ -4,6 +4,6 @@ export class EmployeeEntity {
   email: string | null;
   createdAt: Date;
   updatedAt: Date;
-  isDeleted: Boolean;
+  isDeleted: boolean;
   deletedAt: Date | null;
 }

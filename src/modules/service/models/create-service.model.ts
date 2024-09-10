@@ -1,4 +1,4 @@
-import { CreateServiceCommand } from "../commands/implements/create-service.command";
+import { CreateServiceCommand } from '../commands/implements/create-service.command';
 
 export class CreateServiceModel {
   readonly name: string;

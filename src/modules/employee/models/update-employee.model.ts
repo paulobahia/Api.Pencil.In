@@ -1,4 +1,4 @@
-import { UpdateEmployeeCommand } from "../commands/implements/update-employee.command";
+import { UpdateEmployeeCommand } from '../commands/implements/update-employee.command';
 
 export class UpdateEmployeeModel {
   readonly id: string;
@@ -7,7 +7,7 @@ export class UpdateEmployeeModel {
   readonly establishmentId: string;
 
   constructor(establishmentId: string, employee: UpdateEmployeeCommand) {
-    this.id = employee.id
+    this.id = employee.id;
     this.name = employee.name;
     this.email = employee.email;
     this.establishmentId = establishmentId;
