@@ -15,6 +15,7 @@ model Establishment {
   description          String?
   employees            Employee[]
   calendarIntegrations CalendarIntegration[]
+  Service              Service[]
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   isDeleted            Boolean               @default(false)
@@ -29,7 +30,6 @@ model Employee {
   establishment   Establishment   @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
   establishmentId String
   absences        Absence[]
-  services        Service[]
   operatingHours  OperatingHour[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
@@ -64,17 +64,17 @@ model TimeInterval {
 }
 
 model Service {
-  id              String       @id @default(uuid())
-  employee        Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  employeeId      String
+  id              String        @id @default(uuid())
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  establishmentId String
   name            String
   description     String?
   durationMinutes Int
   price           Float
   schedulings     Scheduling[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  isDeleted       Boolean      @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  isDeleted       Boolean       @default(false)
   deletedAt       DateTime?
 }
 

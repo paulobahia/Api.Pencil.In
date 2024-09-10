@@ -69,7 +69,7 @@ CREATE TABLE "TimeInterval" (
 -- CreateTable
 CREATE TABLE "Service" (
     "id" TEXT NOT NULL,
-    "employeeId" TEXT NOT NULL,
+    "establishmentId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
     "durationMinutes" INTEGER NOT NULL,
@@ -156,7 +156,7 @@ ALTER TABLE "OperatingHour" ADD CONSTRAINT "OperatingHour_employeeId_fkey" FOREI
 ALTER TABLE "TimeInterval" ADD CONSTRAINT "TimeInterval_operatingHourId_fkey" FOREIGN KEY ("operatingHourId") REFERENCES "OperatingHour"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Service" ADD CONSTRAINT "Service_employeeId_fkey" FOREIGN KEY ("employeeId") REFERENCES "Employee"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Service" ADD CONSTRAINT "Service_establishmentId_fkey" FOREIGN KEY ("establishmentId") REFERENCES "Establishment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Scheduling" ADD CONSTRAINT "Scheduling_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
