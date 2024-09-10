@@ -7,6 +7,9 @@ import { EstablishmentRepositoryImplement } from "../establishment/repositories/
 import { ServiceRepositoryImplement } from "./repositories/service.repository";
 import { FindServiceHandler } from "./queries/handlers/find-service.handler";
 import { CreateServiceHandler } from "./commands/handlers/create-service.handler";
+import { UpdateServiceHandler } from "./commands/handlers/update-service.handler";
+import { FindServiceByIdHandler } from "./queries/handlers/find-service-by-id.handler";
+import { DeleteServiceHandler } from "./commands/handlers/delete-service.handler";
 
 const infraestructure: Provider[] = [
   PrismaService,
@@ -20,7 +23,7 @@ const infraestructure: Provider[] = [
   },
 ]
 
-const application = [FindServiceHandler, CreateServiceHandler]
+const application = [FindServiceHandler, CreateServiceHandler, UpdateServiceHandler, FindServiceByIdHandler, DeleteServiceHandler]
 
 @Module({
   imports: [CqrsModule],
