@@ -15,7 +15,7 @@ model Establishment {
   description          String?
   employees            Employee[]
   calendarIntegrations CalendarIntegration[]
-  Service              Service[]
+  services             Service[]             @relation("EstablishmentServices")
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   isDeleted            Boolean               @default(false)
@@ -23,18 +23,19 @@ model Establishment {
 }
 
 model Employee {
-  id              String          @id @default(uuid())
-  name            String
-  email           String          @unique
-  password        String
-  establishment   Establishment   @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
-  establishmentId String
-  absences        Absence[]
-  operatingHours  OperatingHour[]
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  isDeleted       Boolean         @default(false)
-  deletedAt       DateTime?
+  id               String            @id @default(uuid())
+  name             String
+  email            String            @unique
+  password         String
+  establishment    Establishment     @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  establishmentId  String
+  absences         Absence[]
+  operatingHours   OperatingHour[]
+  employeeServices EmployeeService[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  isDeleted        Boolean           @default(false)
+  deletedAt        DateTime?
 }
 
 model OperatingHour {
@@ -64,18 +65,31 @@ model TimeInterval {
 }
 
 model Service {
-  id              String        @id @default(uuid())
-  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
-  establishmentId String
-  name            String
-  description     String?
-  durationMinutes Int
-  price           Float
-  schedulings     Scheduling[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  isDeleted       Boolean       @default(false)
-  deletedAt       DateTime?
+  id               String            @id @default(uuid())
+  establishment    Establishment     @relation("EstablishmentServices", fields: [establishmentId], references: [id], onDelete: Cascade)
+  establishmentId  String
+  name             String
+  description      String?
+  durationMinutes  Int
+  price            Float
+  schedulings      Scheduling[]
+  employeeServices EmployeeService[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  isDeleted        Boolean           @default(false)
+  deletedAt        DateTime?
+}
+
+model EmployeeService {
+  id         String    @id @default(uuid())
+  employeeId String
+  serviceId  String
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  service    Service   @relation(fields: [serviceId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  isDeleted  Boolean   @default(false)
+  deletedAt  DateTime?
 }
 
 model User {
