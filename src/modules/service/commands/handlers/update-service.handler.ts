@@ -16,9 +16,7 @@ export class UpdateServiceHandler
   private readonly serviceRepository: ServiceRepository;
 
   async execute(command: UpdateServiceCommand): Promise<void> {
-    const establishment = await this.establishmentRepository.findById(
-      command.establishmentId,
-    );
+    const establishment = await this.establishmentRepository.findById(command.establishmentId);
     const { establishmentId } = command;
 
     if (!establishment) {

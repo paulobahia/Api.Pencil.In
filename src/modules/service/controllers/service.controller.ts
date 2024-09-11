@@ -76,14 +76,7 @@ export class ServiceController {
   async updateService(@Param() param: UpdateServiceRequestParam, @Body() body: UpdateServiceRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
     const id = param.id;
     const { name, description, durationMinutes, price } = body;
-    const command = new UpdateServiceCommand(
-      establishmentId,
-      id,
-      name,
-      description,
-      durationMinutes,
-      price,
-    );
+    const command = new UpdateServiceCommand(establishmentId, id, name, description, durationMinutes, price);
     return await this.commandBus.execute(command);
   }
 

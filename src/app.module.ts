@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EstablishmentModule } from './modules/establishment/establishment.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { ServiceModule } from './modules/service/service.module';
+import { AbsenceModule } from './modules/absence/absence.module';
 
 @Module({
   imports: [
@@ -10,7 +11,8 @@ import { ServiceModule } from './modules/service/service.module';
     EstablishmentModule,
     EmployeeModule,
     ServiceModule,
+    AbsenceModule
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

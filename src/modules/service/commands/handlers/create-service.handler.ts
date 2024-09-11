@@ -7,9 +7,7 @@ import { CreateServiceCommand } from '../implements/create-service.command';
 import { CreateServiceModel } from '../../models/create-service.model';
 
 @CommandHandler(CreateServiceCommand)
-export class CreateServiceHandler
-  implements ICommandHandler<CreateServiceCommand, void>
-{
+export class CreateServiceHandler implements ICommandHandler<CreateServiceCommand, void> {
   @Inject(InjectionToken.ESTABLISHMENT_REPOSITORY)
   private readonly establishmentRepository: EstablishmentRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
