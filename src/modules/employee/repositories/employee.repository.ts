@@ -1,20 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/database/prisma.service';
-import { FindEmployeeResult } from '../queries/implements/find-employee.result';
-import { EmployeeMapper } from '../queries/mappers/employee.mapper';
 import { EmployeeRepository } from '../interfaces/employee-repository.interface';
-import { FindEmployeeByIdResult } from '../queries/implements/find-employee-by-id.result';
 import { CreateEmployeeModel } from '../models/create-employee.model';
 import { UpdateEmployeeModel } from '../models/update-employee.model';
+import { Employee } from '@prisma/client';
 
 @Injectable()
 export class EmployeeRepositoryImplement implements EmployeeRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  async findById(
-    id: string,
-    establishmentId: string,
-  ): Promise<FindEmployeeByIdResult | null> {
+  async findById(id: string, establishmentId: string): Promise<Employee | null> {
     const employee = await this.prisma.employee.findUnique({
       where: {
         id,
@@ -27,10 +22,10 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
       return null;
     }
 
-    return { employee: EmployeeMapper.toDomain(employee) };
+    return employee
   }
 
-  async find(establishmentId: string): Promise<FindEmployeeResult> {
+  async find(establishmentId: string): Promise<Employee[]> {
     const employees = await this.prisma.employee.findMany({
       where: {
         establishmentId,
@@ -38,7 +33,7 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
       },
     });
 
-    return { employees: employees.map(EmployeeMapper.toDomain) };
+    return employees
   }
 
   async create(employee: CreateEmployeeModel): Promise<void> {

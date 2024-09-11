@@ -8,17 +8,10 @@ import { ResponseDescription } from 'src/common/constants/response-description.e
 @ApiTags('Establishment')
 @Controller('api/establishment')
 export class EstablishmentController {
-  constructor(
-    readonly commandBus: CommandBus,
-    readonly queryBus: QueryBus,
-  ) {}
+  constructor(readonly commandBus: CommandBus, readonly queryBus: QueryBus,) { }
 
   @Get()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.OK,
-    type: FindEstablishmentResponseDto,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: FindEstablishmentResponseDto, })
   async getEstablishment(): Promise<FindEstablishmentResponseDto> {
     const query = new FindEstablishmentQuery();
     return await this.queryBus.execute(query);
