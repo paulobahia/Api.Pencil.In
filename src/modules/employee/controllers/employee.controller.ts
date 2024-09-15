@@ -20,8 +20,8 @@ import {
 } from '@nestjs/swagger';
 import { ResponseDescription } from 'src/common/constants/response-description.enum';
 import { FindEmployeeQuery } from '../queries/implements/find-employee.query';
-import { EstablishmentId } from 'src/common/decorators/establishment-id.decorator';
-import { EstablishmentIdGuard } from 'src/shared/guards/establishment-id.guard';
+import { StudioId } from 'src/common/decorators/studio-id.decorator';
+import { StudioIdGuard } from 'src/shared/guards/studio-id.guard';
 import { CreateEmployeeCommand } from '../commands/implements/create-employee.command';
 import { CreateEmployeeRequestDto } from '../dtos/create-employee-request.dto';
 import { UpdateEmployeeRequestParam } from '../dtos/update-employee-request.dto';
@@ -43,9 +43,9 @@ export class EmployeeController {
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(EstablishmentIdGuard)
-  async getEmployee(@EstablishmentId() establishmentId: string,): Promise<EmployeeViewModel[]> {
-    const query = new FindEmployeeQuery(establishmentId);
+  @UseGuards(StudioIdGuard)
+  async getEmployee(@StudioId() studioId: string,): Promise<EmployeeViewModel[]> {
+    const query = new FindEmployeeQuery(studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -54,11 +54,11 @@ export class EmployeeController {
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(EstablishmentIdGuard)
-  async createEmployee(@Body() body: CreateEmployeeRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  @UseGuards(StudioIdGuard)
+  async createEmployee(@Body() body: CreateEmployeeRequestDto, @StudioId() studioId: string,): Promise<void> {
     const { email, name, password } = body;
     const command = new CreateEmployeeCommand(
-      establishmentId,
+      studioId,
       email,
       name,
       password,
@@ -72,10 +72,10 @@ export class EmployeeController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateEmployee(@Param() param: UpdateEmployeeRequestParam, @Body() body: UpdateEmployeeRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  async updateEmployee(@Param() param: UpdateEmployeeRequestParam, @Body() body: UpdateEmployeeRequestDto, @StudioId() studioId: string,): Promise<void> {
     const id = param.id;
     const { email, name } = body;
-    const command = new UpdateEmployeeCommand(establishmentId, id, name, email);
+    const command = new UpdateEmployeeCommand(studioId, id, name, email);
     return await this.commandBus.execute(command);
   }
 
@@ -85,9 +85,9 @@ export class EmployeeController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR })
-  async getEmployeeById(@Param() param: FindEmployeeByIdRequestParam, @EstablishmentId() establishmentId: string): Promise<EmployeeViewModel> {
+  async getEmployeeById(@Param() param: FindEmployeeByIdRequestParam, @StudioId() studioId: string): Promise<EmployeeViewModel> {
     const id = param.id;
-    const query = new FindEmployeeByIdQuery(id, establishmentId);
+    const query = new FindEmployeeByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -97,9 +97,9 @@ export class EmployeeController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteEmployee(@Param() param: DeleteEmployeeRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  async deleteEmployee(@Param() param: DeleteEmployeeRequestDto, @StudioId() studioId: string,): Promise<void> {
     const id = param.id;
-    const command = new DeleteEmployeeCommand(id, establishmentId);
+    const command = new DeleteEmployeeCommand(id, studioId);
     return await this.commandBus.execute(command);
   }
 }

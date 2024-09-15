@@ -19,8 +19,8 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { ResponseDescription } from 'src/common/constants/response-description.enum';
-import { EstablishmentId } from 'src/common/decorators/establishment-id.decorator';
-import { EstablishmentIdGuard } from 'src/shared/guards/establishment-id.guard';
+import { StudioId } from 'src/common/decorators/studio-id.decorator';
+import { StudioIdGuard } from 'src/shared/guards/studio-id.guard';
 import { FindServiceQuery } from '../queries/implements/find-service.query';
 import { CreateServiceRequestDto } from '../dtos/create-service-request.dto';
 import { CreateServiceCommand } from '../commands/implements/create-service.command';
@@ -43,9 +43,9 @@ export class ServiceController {
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(EstablishmentIdGuard)
-  async getService(@EstablishmentId() establishmentId: string,): Promise<ServiceViewModel> {
-    const query = new FindServiceQuery(establishmentId);
+  @UseGuards(StudioIdGuard)
+  async getService(@StudioId() studioId: string,): Promise<ServiceViewModel> {
+    const query = new FindServiceQuery(studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -54,11 +54,11 @@ export class ServiceController {
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(EstablishmentIdGuard)
-  async createService(@Body() body: CreateServiceRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  @UseGuards(StudioIdGuard)
+  async createService(@Body() body: CreateServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
     const { name, description, durationMinutes, price } = body;
     const command = new CreateServiceCommand(
-      establishmentId,
+      studioId,
       name,
       description,
       durationMinutes,
@@ -73,10 +73,10 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateService(@Param() param: UpdateServiceRequestParam, @Body() body: UpdateServiceRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  async updateService(@Param() param: UpdateServiceRequestParam, @Body() body: UpdateServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
     const id = param.id;
     const { name, description, durationMinutes, price } = body;
-    const command = new UpdateServiceCommand(establishmentId, id, name, description, durationMinutes, price);
+    const command = new UpdateServiceCommand(studioId, id, name, description, durationMinutes, price);
     return await this.commandBus.execute(command);
   }
 
@@ -86,9 +86,9 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getServiceById(@Param() param: FindServiceByIdRequestParam, @EstablishmentId() establishmentId: string,): Promise<ServiceViewModel> {
+  async getServiceById(@Param() param: FindServiceByIdRequestParam, @StudioId() studioId: string,): Promise<ServiceViewModel> {
     const id = param.id;
-    const query = new FindServiceByIdQuery(id, establishmentId);
+    const query = new FindServiceByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -98,9 +98,9 @@ export class ServiceController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteService(@Param() param: DeleteServiceRequestDto, @EstablishmentId() establishmentId: string,): Promise<void> {
+  async deleteService(@Param() param: DeleteServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
     const id = param.id;
-    const command = new DeleteServiceCommand(id, establishmentId);
+    const command = new DeleteServiceCommand(id, studioId);
     return await this.commandBus.execute(command);
   }
 }

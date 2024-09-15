@@ -2,7 +2,7 @@ import { Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { EmployeeController } from './controllers/employee.controller';
 import { PrismaService } from 'src/infrastructure/database/prisma.service';
-import { EstablishmentRepositoryImplement } from '../establishment/repositories/establishment.repository';
+import { StudioRepositoryImplement } from '../studio/repositories/studio.repository';
 import { FindEmployeeHandler } from './queries/handlers/find-employee.handler';
 import { EmployeeRepositoryImplement } from './repositories/employee.repository';
 import { InjectionToken } from '../injection-token';
@@ -14,8 +14,8 @@ import { DeleteEmployeeHandler } from './commands/handlers/delete-employee.handl
 const infraestructure: Provider[] = [
   PrismaService,
   {
-    provide: InjectionToken.ESTABLISHMENT_REPOSITORY,
-    useClass: EstablishmentRepositoryImplement,
+    provide: InjectionToken.STUDIO_REPOSITORY,
+    useClass: StudioRepositoryImplement,
   },
   {
     provide: InjectionToken.EMPLOYEE_REPOSITORY,

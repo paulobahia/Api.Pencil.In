@@ -2,7 +2,7 @@ import { Module, Provider } from "@nestjs/common";
 import { CqrsModule } from "@nestjs/cqrs";
 import { InjectionToken } from "../injection-token";
 import { PrismaService } from "src/infrastructure/database/prisma.service";
-import { EstablishmentRepositoryImplement } from "../establishment/repositories/establishment.repository";
+import { StudioRepositoryImplement } from "../studio/repositories/studio.repository";
 import { AbsenceController } from "./controllers/absence.controller";
 import { FindAbsenceHandler } from "./queries/handlers/find-absence.handler";
 import { AbsenceRepositoryImplement } from "./repositories/absence.repository";
@@ -15,8 +15,8 @@ import { FindAbsenceByIdHandler } from "./queries/handlers/find-absence-by-id.ha
 const infraestructure: Provider[] = [
   PrismaService,
   {
-    provide: InjectionToken.ESTABLISHMENT_REPOSITORY,
-    useClass: EstablishmentRepositoryImplement,
+    provide: InjectionToken.STUDIO_REPOSITORY,
+    useClass: StudioRepositoryImplement,
   },
   {
     provide: InjectionToken.EMPLOYEE_REPOSITORY,

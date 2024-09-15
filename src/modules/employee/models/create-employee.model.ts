@@ -4,12 +4,12 @@ export class CreateEmployeeModel {
   readonly name: string;
   readonly email: string;
   readonly password: string;
-  readonly establishmentId: string;
+  readonly studioId: string;
 
-  constructor(establishmentId: string, Employee: CreateEmployeeCommand) {
+  constructor(studioId: string, Employee: CreateEmployeeCommand) {
     this.name = Employee.name;
     this.email = Employee.email;
     this.password = Employee.password;
-    this.establishmentId = establishmentId;
+    this.studioId = studioId;
   }
 }

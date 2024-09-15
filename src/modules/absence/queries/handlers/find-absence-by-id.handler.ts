@@ -2,7 +2,7 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAbsenceByIdQuery } from '../implements/find-absence-by-id.query';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { InjectionToken } from 'src/modules/injection-token';
-import { EstablishmentRepository } from 'src/modules/establishment/interfaces/establishment.interface';
+import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { AbsenceRepository } from '../../interfaces/absence.interface';
 import { AbsenceViewModel } from '../../viewmodels/absence.viewmodel';
 import { AbsenceModule } from '../../absence.module';
@@ -10,19 +10,19 @@ import { AbsenceModule } from '../../absence.module';
 @QueryHandler(FindAbsenceByIdQuery)
 export class FindAbsenceByIdHandler
   implements IQueryHandler<FindAbsenceByIdQuery, AbsenceModule> {
-  @Inject(InjectionToken.ESTABLISHMENT_REPOSITORY)
-  private readonly establishmentRepository: EstablishmentRepository;
+  @Inject(InjectionToken.STUDIO_REPOSITORY)
+  private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.ABSENCE_REPOSITORY)
   private readonly absenceRepository: AbsenceRepository;
 
-  async execute({ id, establishmentId, }: FindAbsenceByIdQuery): Promise<AbsenceModule> {
-    const establishment = await this.establishmentRepository.findById(establishmentId);
+  async execute({ id, studioId, }: FindAbsenceByIdQuery): Promise<AbsenceModule> {
+    const studio = await this.studioRepository.findById(studioId);
 
-    if (!establishment) {
+    if (!studio) {
       throw new NotFoundException();
     }
 
-    const absence = await this.absenceRepository.findById(id, establishmentId);
+    const absence = await this.absenceRepository.findById(id, studioId);
 
     return new AbsenceViewModel(absence)
   }

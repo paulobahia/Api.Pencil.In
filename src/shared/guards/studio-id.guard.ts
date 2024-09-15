@@ -6,13 +6,13 @@ import {
 } from '@nestjs/common';
 
 @Injectable()
-export class EstablishmentIdGuard implements CanActivate {
+export class StudioIdGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    const establishmentId = request.headers['x-establishment-id'];
+    const studioId = request.headers['x-studio-id'];
 
-    if (!establishmentId) {
-      throw new ForbiddenException('Establishment ID is required');
+    if (!studioId) {
+      throw new ForbiddenException('Studio ID is required');
     }
 
     return true;

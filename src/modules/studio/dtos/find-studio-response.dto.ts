@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsOptional, IsDate, IsBoolean } from 'class-validator';
 
-class Establishment {
+class Studio {
   @ApiProperty()
   @IsString()
   readonly id: string;
@@ -43,7 +43,7 @@ class Establishment {
   deletedAt: Date | null;
 }
 
-export class FindEstablishmentResponseDto {
-  @ApiProperty({ type: [Establishment] })
-  readonly establishment: Establishment[];
+export class FindStudioResponseDto {
+  @ApiProperty({ type: [Studio] })
+  readonly studio: Studio[];
 }

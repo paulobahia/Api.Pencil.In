@@ -9,11 +9,11 @@ import { Service } from '@prisma/client';
 export class ServiceRepositoryImplement implements ServiceRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async findById(id: string, establishmentId: string): Promise<Service | null> {
+  async findById(id: string, studioId: string): Promise<Service | null> {
     const service = await this.prisma.service.findUnique({
       where: {
         id,
-        establishmentId,
+        studioId,
         isDeleted: false,
       },
     });
@@ -25,10 +25,10 @@ export class ServiceRepositoryImplement implements ServiceRepository {
     return service
   }
 
-  async find(establishmentId: string): Promise<Service[]> {
+  async find(studioId: string): Promise<Service[]> {
     const services = await this.prisma.service.findMany({
       where: {
-        establishmentId,
+        studioId,
         isDeleted: false,
       },
     });
@@ -41,7 +41,7 @@ export class ServiceRepositoryImplement implements ServiceRepository {
   }
 
   async create(service: CreateServiceModel): Promise<void> {
-    const { name, description, durationMinutes, price, establishmentId } =
+    const { name, description, durationMinutes, price, studioId } =
       service;
 
     await this.prisma.service.create({
@@ -50,18 +50,18 @@ export class ServiceRepositoryImplement implements ServiceRepository {
         description,
         durationMinutes,
         price,
-        establishmentId,
+        studioId,
       },
     });
   }
 
   async update(employee: UpdateServiceModel) {
-    const { id, name, description, durationMinutes, price, establishmentId } = employee;
+    const { id, name, description, durationMinutes, price, studioId } = employee;
 
     await this.prisma.service.update({
       where: {
         id,
-        establishmentId,
+        studioId,
       },
       data: {
         name,
@@ -72,11 +72,11 @@ export class ServiceRepositoryImplement implements ServiceRepository {
     });
   }
 
-  async delete(id: string, establishmentId: string) {
+  async delete(id: string, studioId: string) {
     await this.prisma.service.update({
       where: {
         id,
-        establishmentId,
+        studioId,
       },
       data: {
         isDeleted: true,

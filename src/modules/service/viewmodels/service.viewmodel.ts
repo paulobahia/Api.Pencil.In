@@ -17,7 +17,7 @@ export class ServiceViewModel {
   price: number;
   
   @ApiProperty()
-  establishmentId: string;
+  studioId: string;
   
   @ApiProperty()
   createdAt: string;
@@ -28,7 +28,7 @@ export class ServiceViewModel {
     this.description = service.description;
     this.durationMinutes = service.durationMinutes;
     this.price = service.price;
-    this.establishmentId = service.establishmentId;
+    this.studioId = service.studioId;
     this.createdAt = new Date(service.createdAt).toLocaleDateString();
   }
 }

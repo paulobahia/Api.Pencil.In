@@ -9,11 +9,11 @@ import { Employee } from '@prisma/client';
 export class EmployeeRepositoryImplement implements EmployeeRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async findById(id: string, establishmentId: string): Promise<Employee | null> {
+  async findById(id: string, studioId: string): Promise<Employee | null> {
     const employee = await this.prisma.employee.findUnique({
       where: {
         id,
-        establishmentId,
+        studioId,
         isDeleted: false,
       },
     });
@@ -25,10 +25,10 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     return employee
   }
 
-  async find(establishmentId: string): Promise<Employee[]> {
+  async find(studioId: string): Promise<Employee[]> {
     const employees = await this.prisma.employee.findMany({
       where: {
-        establishmentId,
+        studioId,
         isDeleted: false,
       },
     });
@@ -37,25 +37,25 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
   }
 
   async create(employee: CreateEmployeeModel): Promise<void> {
-    const { email, name, password, establishmentId } = employee;
+    const { email, name, password, studioId } = employee;
 
     await this.prisma.employee.create({
       data: {
         name,
         email,
         password,
-        establishmentId,
+        studioId,
       },
     });
   }
 
   async update(employee: UpdateEmployeeModel) {
-    const { id, email, name, establishmentId } = employee;
+    const { id, email, name, studioId } = employee;
 
     await this.prisma.employee.update({
       where: {
         id,
-        establishmentId,
+        studioId,
       },
       data: {
         name,
@@ -64,11 +64,11 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     });
   }
 
-  async delete(id: string, establishmentId: string) {
+  async delete(id: string, studioId: string) {
     await this.prisma.employee.update({
       where: {
         id,
-        establishmentId,
+        studioId,
       },
       data: {
         isDeleted: true,

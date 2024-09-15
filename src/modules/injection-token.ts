@@ -1,5 +1,5 @@
 export enum InjectionToken {
-  ESTABLISHMENT_REPOSITORY = 'EstablishmentRepository',
+  STUDIO_REPOSITORY = 'StudioRepository',
   EMPLOYEE_REPOSITORY = 'EmployeeRepository',
   SERVICE_REPOSITORY = 'ServiceRepository',
   ABSENCE_REPOSITORY = 'AbsenceRepository'

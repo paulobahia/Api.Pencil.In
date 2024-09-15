@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class EstablishmentViewModel {
+export class StudioViewModel {
 
   @ApiProperty()
   readonly id: string;

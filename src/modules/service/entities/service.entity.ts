@@ -4,7 +4,7 @@ export class ServiceEntity {
   description: string;
   durationMinutes: number;
   price: number;
-  establishmentId: string;
+  studioId: string;
   createdAt: Date;
   updatedAt: Date;
   isDeleted: boolean;

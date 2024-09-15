@@ -1,4 +1,4 @@
-export class EstablishmentEntity {
+export class StudioEntity {
   id: string;
   name: string;
   address: string | null;

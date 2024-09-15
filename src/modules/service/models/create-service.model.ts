@@ -5,13 +5,13 @@ export class CreateServiceModel {
   readonly description: string;
   readonly durationMinutes: number;
   readonly price: number;
-  readonly establishmentId: string;
+  readonly studioId: string;
 
-  constructor(establishmentId: string, service: CreateServiceCommand) {
+  constructor(studioId: string, service: CreateServiceCommand) {
     this.name = service.name;
     this.description = service.description;
     this.durationMinutes = service.durationMinutes;
     this.price = service.price;
-    this.establishmentId = establishmentId;
+    this.studioId = studioId;
   }
 }

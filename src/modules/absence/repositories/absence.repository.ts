@@ -9,12 +9,12 @@ import { UpdateAbsenceModel } from "../models/update-absence.model";
 export class AbsenceRepositoryImplement implements AbsenceRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async find(establishmentId: string): Promise<Absence[]> {
+  async find(studioId: string): Promise<Absence[]> {
     const absences = await this.prisma.absence.findMany({
       where: {
         isDeleted: false,
         employee: {
-          establishmentId
+          studioId
         },
       },
     });
@@ -26,12 +26,12 @@ export class AbsenceRepositoryImplement implements AbsenceRepository {
     return absences
   }
 
-  async findById(id: string, establishmentId: string): Promise<Absence | null> {
+  async findById(id: string, studioId: string): Promise<Absence | null> {
     const absence = await this.prisma.absence.findUnique({
       where: {
         id,
         employee: {
-          establishmentId
+          studioId
         },
         isDeleted: false,
       },
@@ -70,10 +70,13 @@ export class AbsenceRepositoryImplement implements AbsenceRepository {
     });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string, studioId: string): Promise<void> {
     await this.prisma.absence.update({
       where: {
-        id
+        id,
+        employee: {
+          studioId
+        }
       },
       data: {
         isDeleted: true,

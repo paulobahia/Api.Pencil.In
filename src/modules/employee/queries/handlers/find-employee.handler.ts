@@ -3,26 +3,26 @@ import { FindEmployeeQuery } from '../implements/find-employee.query';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { InjectionToken } from 'src/modules/injection-token';
 import { EmployeeRepository } from '../../interfaces/employee-repository.interface';
-import { EstablishmentRepository } from 'src/modules/establishment/interfaces/establishment.interface';
+import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { EmployeeViewModel } from '../../viewmodels/employee.viewmodel';
 
 @QueryHandler(FindEmployeeQuery)
 export class FindEmployeeHandler
   implements IQueryHandler<FindEmployeeQuery, EmployeeViewModel[]> {
-  @Inject(InjectionToken.ESTABLISHMENT_REPOSITORY)
-  private readonly establishmentRepository: EstablishmentRepository;
+  @Inject(InjectionToken.STUDIO_REPOSITORY)
+  private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
 
-  async execute({ establishmentId }: FindEmployeeQuery): Promise<EmployeeViewModel[]> {
-    const establishment =
-      await this.establishmentRepository.findById(establishmentId);
+  async execute({ studioId }: FindEmployeeQuery): Promise<EmployeeViewModel[]> {
+    const studio =
+      await this.studioRepository.findById(studioId);
 
-    if (!establishment) {
+    if (!studio) {
       throw new NotFoundException();
     }
 
-    const employees = await this.employeeRepository.find(establishmentId);
+    const employees = await this.employeeRepository.find(studioId);
 
     return employees.map(employee => new EmployeeViewModel(employee))
   }
