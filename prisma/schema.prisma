@@ -15,7 +15,8 @@ model Studio {
   description          String?
   employees            Employee[]
   calendarIntegrations CalendarIntegration[]
-  services             Service[]             @relation("StudioServices")
+  User                 User[]
+  StudioService        StudioService[]
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   isDeleted            Boolean               @default(false)
@@ -80,18 +81,25 @@ model TimeInterval {
 
 model Service {
   id               String            @id @default(uuid())
-  studio           Studio            @relation("StudioServices", fields: [studioId], references: [id], onDelete: Cascade)
-  studioId         String
   name             String
   description      String?
   durationMinutes  Int
   price            Float
   schedulings      Scheduling[]
   employeeServices EmployeeService[]
+  StudioService    StudioService[]
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   isDeleted        Boolean           @default(false)
   deletedAt        DateTime?
+}
+
+model StudioService {
+  id        String  @id @default(uuid())
+  studio    Studio  @relation(fields: [studioId], references: [id])
+  studioId  String
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String
 }
 
 model EmployeeService {
@@ -110,6 +118,8 @@ model User {
   id          String       @id @default(uuid())
   name        String
   phone       String       @unique
+  studio      Studio       @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  studioId    String
   schedulings Scheduling[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
