@@ -1,7 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindUserByIdQuery } from '../implements/find-user-by-id.query';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { UserRepository } from '../../interfaces/user-repository.interface';
 import { UserViewModel } from '../../viewmodels/user.viewmodel';
@@ -18,7 +19,7 @@ export class FindUserByIdHandler
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const user = await this.userRepository.findById(id, studioId);

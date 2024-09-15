@@ -1,7 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteUserCommand } from '../implements/delete-user.command';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { UserRepository } from '../../interfaces/user-repository.interface';
 
@@ -17,13 +18,13 @@ export class DeleteUserHandler implements ICommandHandler<DeleteUserCommand, voi
     const { id, studioId } = command;
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const user = await this.userRepository.findById(command.id, studioId);
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException("Usuário");
     }
 
     await this.userRepository.delete(id, studioId);

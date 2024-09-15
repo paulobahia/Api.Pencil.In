@@ -4,6 +4,7 @@ import { StudioRepository } from '../../interfaces/studio.interface';
 import { StudioViewModel } from '../../viewmodels/studio.viewmodel';
 import { InjectionToken } from 'src/modules/injection-token';
 import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 
 @QueryHandler(FindStudioQuery)
 export class FindStudioHandler

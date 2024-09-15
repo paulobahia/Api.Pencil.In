@@ -18,7 +18,7 @@ export class FindAbsenceHandler
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const absences = await this.absenceRepository.find(studioId)

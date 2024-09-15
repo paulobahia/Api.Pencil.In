@@ -1,7 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../implements/create-user.command';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { UserRepository } from '../../interfaces/user-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { CreateUserModel } from '../../models/create-user.model';
@@ -20,7 +21,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand, voi
       await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const createUser = new CreateUserModel(studioId, command);

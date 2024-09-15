@@ -1,7 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateSchedulingCommand } from '../implements/create-scheduling.command';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { SchedulingRepository } from '../../interfaces/scheduling-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { CreateSchedulingModel } from '../../models/create-scheduling.model';
@@ -25,19 +26,19 @@ export class CreateSchedulingHandler implements ICommandHandler<CreateScheduling
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const services = await this.serviceRepository.findByIds(servicesIds, studioId)
 
     if (services.length !== servicesIds.length) {
-      throw new NotFoundException();
+      throw new NotFoundException('Um ou mais serviços');
     }
 
     const user = await this.userRepository.findById(userId, studioId)
 
     if (!user) {
-      throw new NotFoundException()
+      throw new NotFoundException("Usuário")
     }
 
     const createScheduling = new CreateSchedulingModel(command);

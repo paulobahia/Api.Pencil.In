@@ -1,6 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindSchedulingQuery } from '../implements/find-scheduling.query';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
 import { SchedulingRepository } from '../../interfaces/scheduling-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
@@ -19,7 +20,7 @@ export class FindSchedulingHandler
       await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const schedulings = await this.schedulingRepository.find(studioId);

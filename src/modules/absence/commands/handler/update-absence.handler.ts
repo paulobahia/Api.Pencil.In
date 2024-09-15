@@ -1,7 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateAbsenceCommand } from '../implements/update-absence.command';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { AbsenceRepository } from '../../interfaces/absence.interface';
 import { EmployeeRepository } from 'src/modules/employee/interfaces/employee-repository.interface';
@@ -22,19 +23,19 @@ export class UpdateAbsenceHandler
     const { studioId } = command;
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const employee = await this.employeeRepository.findById(command.employeeId, studioId)
 
     if (!employee) {
-      throw new NotFoundException();
+      throw new NotFoundException('Funcionário');
     }
 
     const absence = await this.absenceRepository.findById(command.id, studioId);
 
     if (!absence) {
-      throw new NotFoundException();
+      throw new NotFoundException('Ausência');
     }
 
     const updateAbsence = new UpdateAbsenceModel(command);

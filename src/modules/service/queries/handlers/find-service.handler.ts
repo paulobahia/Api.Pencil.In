@@ -1,7 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindServiceQuery } from '../implements/find-service.query';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { ServiceRepository } from '../../interfaces/service.interface';
 import { ServiceViewModel } from '../../viewmodels/service.viewmodel';
@@ -17,7 +18,7 @@ export class FindServiceHandler implements IQueryHandler<FindServiceQuery, Servi
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const services = await this.serviceRepository.find(studioId)

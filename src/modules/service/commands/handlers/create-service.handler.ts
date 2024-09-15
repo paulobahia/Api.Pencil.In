@@ -2,7 +2,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { ServiceRepository } from '../../interfaces/service.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { CreateServiceCommand } from '../implements/create-service.command';
 import { CreateServiceModel } from '../../models/create-service.model';
 
@@ -19,7 +20,7 @@ export class CreateServiceHandler implements ICommandHandler<CreateServiceComman
       await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const createService = new CreateServiceModel(studioId, command);

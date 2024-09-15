@@ -1,7 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteEmployeeCommand } from '../implements/delete-employee.command';
 import { InjectionToken } from 'src/modules/injection-token';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { EmployeeRepository } from '../../interfaces/employee-repository.interface';
 
@@ -17,7 +18,7 @@ export class DeleteEmployeeHandler implements ICommandHandler<DeleteEmployeeComm
     const { id, studioId } = command;
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const employee = await this.employeeRepository.findById(
@@ -26,7 +27,7 @@ export class DeleteEmployeeHandler implements ICommandHandler<DeleteEmployeeComm
     );
 
     if (!employee) {
-      throw new NotFoundException();
+      throw new NotFoundException('Funcionário');
     }
 
     await this.employeeRepository.delete(id, studioId);

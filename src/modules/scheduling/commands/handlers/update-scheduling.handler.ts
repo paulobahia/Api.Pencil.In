@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateSchedulingCommand } from '../implements/update-scheduling.command';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { SchedulingRepository } from '../../interfaces/scheduling-repository.interface';
@@ -25,19 +26,19 @@ export class UpdateSchedulingHandler implements ICommandHandler<UpdateScheduling
     const studio = await this.studioRepository.findById(command.studioId,);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const services = await this.serviceRepository.findByIds(servicesIds, studioId)
 
     if (services.length !== servicesIds.length) {
-      throw new NotFoundException();
+      throw new NotFoundException('Um ou mais serviços');
     }
 
     const scheduling = await this.schedulingRepository.findById(command.id, studioId);
 
     if (!scheduling) {
-      throw new NotFoundException();
+      throw new NotFoundException("Agendamento");
     }
 
     const updateScheduling = new UpdateSchedulingModel(command);

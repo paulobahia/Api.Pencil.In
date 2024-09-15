@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteServiceCommand } from '../implements/delete-service.command';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { InjectionToken } from 'src/modules/injection-token';
 import { ServiceRepository } from '../../interfaces/service.interface';
@@ -17,7 +18,7 @@ export class DeleteServiceHandler implements ICommandHandler<DeleteServiceComman
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const service = await this.serviceRepository.findById(
@@ -26,7 +27,7 @@ export class DeleteServiceHandler implements ICommandHandler<DeleteServiceComman
     );
 
     if (!service) {
-      throw new NotFoundException();
+      throw new NotFoundException("Procedimento");
     }
 
     await this.serviceRepository.delete(id, studioId);

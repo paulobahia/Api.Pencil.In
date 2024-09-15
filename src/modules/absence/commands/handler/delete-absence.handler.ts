@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { DeleteAbsenceCommand } from '../implements/delete-absence.command';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { InjectionToken } from 'src/modules/injection-token';
 import { AbsenceRepository } from '../../interfaces/absence.interface';
@@ -18,13 +19,13 @@ export class DeleteAbsenceHandler
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const absence = await this.absenceRepository.findById(id, studioId);
 
     if (!absence) {
-      throw new NotFoundException();
+      throw new NotFoundException('Ausência');
     }
 
     await this.absenceRepository.delete(id, studioId);

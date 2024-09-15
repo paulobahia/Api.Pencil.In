@@ -1,6 +1,7 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindEmployeeQuery } from '../implements/find-employee.query';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
 import { EmployeeRepository } from '../../interfaces/employee-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
@@ -17,7 +18,7 @@ export class FindEmployeeHandler implements IQueryHandler<FindEmployeeQuery, Emp
     const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const employees = await this.employeeRepository.find(studioId);

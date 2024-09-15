@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateEmployeeCommand } from '../implements/update-employee.command';
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { EmployeeRepository } from '../../interfaces/employee-repository.interface';
@@ -18,7 +19,7 @@ export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeComm
     const { studioId } = command;
 
     if (!studio) {
-      throw new NotFoundException();
+      throw new NotFoundException('Estúdio');
     }
 
     const employee = await this.employeeRepository.findById(
@@ -27,7 +28,7 @@ export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeComm
     );
 
     if (!employee) {
-      throw new NotFoundException();
+      throw new NotFoundException('Funcionário');
     }
 
     const updateEmployee = new UpdateEmployeeModel(studioId, command);
