@@ -80,19 +80,19 @@ model TimeInterval {
 }
 
 model Service {
-  id               String            @id @default(uuid())
-  studio           Studio            @relation("StudioServices", fields: [studioId], references: [id], onDelete: Cascade)
-  studioId         String
-  name             String
-  description      String?
-  durationMinutes  Int
-  price            Float
-  schedulings      Scheduling[]
-  employeeServices EmployeeService[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  isDeleted        Boolean           @default(false)
-  deletedAt        DateTime?
+  id                String              @id @default(uuid())
+  studio            Studio              @relation("StudioServices", fields: [studioId], references: [id], onDelete: Cascade)
+  studioId          String
+  name              String
+  description       String?
+  durationMinutes   Int
+  price             Float
+  employeeServices  EmployeeService[]
+  SchedulingService SchedulingService[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  isDeleted         Boolean             @default(false)
+  deletedAt         DateTime?
 }
 
 model EmployeeService {
@@ -121,18 +121,25 @@ model User {
 }
 
 model Scheduling {
-  id             String           @id @default(uuid())
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId         String
-  service        Service          @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId      String
-  schedulingTime DateTime
-  status         SchedulingStatus
-  notes          String?
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  isDeleted      Boolean          @default(false)
-  deletedAt      DateTime?
+  id                String              @id @default(uuid())
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+  schedulingTime    DateTime
+  status            SchedulingStatus
+  SchedulingService SchedulingService[]
+  notes             String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  isDeleted         Boolean             @default(false)
+  deletedAt         DateTime?
+}
+
+model SchedulingService {
+  id           String     @id @default(uuid())
+  scheduling   Scheduling @relation(fields: [schedulingId], references: [id])
+  schedulingId String
+  service      Service    @relation(fields: [serviceId], references: [id])
+  serviceId    String
 }
 
 model CalendarIntegration {

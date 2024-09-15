@@ -5,6 +5,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
 import { ServiceModule } from './modules/service/service.module';
 import { AbsenceModule } from './modules/absence/absence.module';
 import { UserModule } from './modules/user/user.module';
+import { SchedulingModule } from './modules/scheduling/scheduling.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { UserModule } from './modules/user/user.module';
     EmployeeModule,
     ServiceModule,
     AbsenceModule,
-    UserModule
+    UserModule,
+    SchedulingModule
   ],
   providers: [],
 })

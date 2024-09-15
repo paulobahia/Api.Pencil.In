@@ -3,5 +3,6 @@ export enum InjectionToken {
   EMPLOYEE_REPOSITORY = 'EmployeeRepository',
   SERVICE_REPOSITORY = 'ServiceRepository',
   ABSENCE_REPOSITORY = 'AbsenceRepository',
-  USER_REPOSITORY = 'UserRepository'
+  USER_REPOSITORY = 'UserRepository',
+  SCHEDULING_REPOSITORY = 'SchedulingRepository'
 }
