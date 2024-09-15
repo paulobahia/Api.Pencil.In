@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Establishment {
+model Studio {
   id                   String                @id @default(uuid())
   name                 String
   address              String?
@@ -15,7 +15,7 @@ model Establishment {
   description          String?
   employees            Employee[]
   calendarIntegrations CalendarIntegration[]
-  services             Service[]             @relation("EstablishmentServices")
+  services             Service[]             @relation("StudioServices")
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   isDeleted            Boolean               @default(false)
@@ -27,8 +27,8 @@ model Employee {
   name             String
   email            String            @unique
   password         String
-  establishment    Establishment     @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
-  establishmentId  String
+  studio           Studio            @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  studioId         String
   absences         Absence[]
   operatingHours   OperatingHour[]
   employeeServices EmployeeService[]
@@ -39,35 +39,49 @@ model Employee {
 }
 
 model OperatingHour {
-  id            String         @id @default(uuid())
-  employee      Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  id            String                   @id @default(uuid())
+  employee      Employee                 @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId    String
   dayOfWeek     DayOfWeek
   specificDate  DateTime?
-  isAbsence     Boolean        @default(false)
+  isAbsence     Boolean                  @default(false)
   timeIntervals TimeInterval[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  isDeleted     Boolean        @default(false)
+  isDefault     Boolean                  @default(false)
+  exceptions    OperatingHourException[]
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+  isDeleted     Boolean                  @default(false)
   deletedAt     DateTime?
 }
 
-model TimeInterval {
-  id              String        @id @default(uuid())
-  operatingHour   OperatingHour @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
+model OperatingHourException {
+  id              String         @id @default(uuid())
+  operatingHour   OperatingHour  @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
   operatingHourId String
-  startTime       DateTime
-  endTime         DateTime
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  isDeleted       Boolean       @default(false)
-  deletedAt       DateTime?
+  exceptionDate   DateTime
+  timeIntervals   TimeInterval[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model TimeInterval {
+  id                       String                  @id @default(uuid())
+  operatingHour            OperatingHour           @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
+  operatingHourId          String
+  OperatingHourException   OperatingHourException? @relation(fields: [operatingHourExceptionId], references: [id])
+  operatingHourExceptionId String?
+  startTime                DateTime
+  endTime                  DateTime
+  createdAt                DateTime                @default(now())
+  updatedAt                DateTime                @updatedAt
+  isDeleted                Boolean                 @default(false)
+  deletedAt                DateTime?
 }
 
 model Service {
   id               String            @id @default(uuid())
-  establishment    Establishment     @relation("EstablishmentServices", fields: [establishmentId], references: [id], onDelete: Cascade)
-  establishmentId  String
+  studio           Studio            @relation("StudioServices", fields: [studioId], references: [id], onDelete: Cascade)
+  studioId         String
   name             String
   description      String?
   durationMinutes  Int
@@ -119,16 +133,16 @@ model Scheduling {
 }
 
 model CalendarIntegration {
-  id              String        @id @default(uuid())
-  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
-  establishmentId String
-  calendarType    CalendarType
-  eventId         String
-  status          String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @default(now())
-  isDeleted       Boolean       @default(false)
-  deletedAt       DateTime?
+  id           String       @id @default(uuid())
+  studio       Studio       @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  studioId     String
+  calendarType CalendarType
+  eventId      String
+  status       String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now())
+  isDeleted    Boolean      @default(false)
+  deletedAt    DateTime?
 }
 
 model Absence {
