@@ -25,6 +25,19 @@ export class ServiceRepositoryImplement implements ServiceRepository {
     return service
   }
 
+  async findByIds(ids: string[], studioId: string): Promise<string[]> {
+    const services = await this.prisma.service.findMany({
+      where: {
+        id: { in: ids },
+        studioId,
+        isDeleted: false,
+      },
+      select: { id: true }
+    });
+
+    return services.map(service => service.id);
+  }
+
   async find(studioId: string): Promise<Service[]> {
     const services = await this.prisma.service.findMany({
       where: {
@@ -33,16 +46,11 @@ export class ServiceRepositoryImplement implements ServiceRepository {
       },
     });
 
-    if (!services) {
-      return null;
-    }
-
     return services
   }
 
   async create(service: CreateServiceModel): Promise<void> {
-    const { name, description, durationMinutes, price, studioId } =
-      service;
+    const { name, description, durationMinutes, price, studioId } = service;
 
     await this.prisma.service.create({
       data: {

@@ -8,8 +8,7 @@ import { ServiceViewModel } from '../../viewmodels/service.viewmodel';
 import { ServiceModule } from '../../service.module';
 
 @QueryHandler(FindServiceByIdQuery)
-export class FindServiceByIdHandler
-  implements IQueryHandler<FindServiceByIdQuery, ServiceModule> {
+export class FindServiceByIdHandler implements IQueryHandler<FindServiceByIdQuery, ServiceModule> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)

@@ -15,8 +15,7 @@ export class FindAbsenceHandler
   private readonly absenceRepository: AbsenceRepository;
 
   async execute({ studioId }: FindAbsenceQuery): Promise<AbsenceViewModel[]> {
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException();

@@ -44,7 +44,7 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async getService(@StudioId() studioId: string,): Promise<ServiceViewModel> {
+  async getService(@StudioId() studioId: string): Promise<ServiceViewModel> {
     const query = new FindServiceQuery(studioId);
     return await this.queryBus.execute(query);
   }
@@ -55,15 +55,9 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async createService(@Body() body: CreateServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async createService(@Body() body: CreateServiceRequestDto, @StudioId() studioId: string): Promise<void> {
     const { name, description, durationMinutes, price } = body;
-    const command = new CreateServiceCommand(
-      studioId,
-      name,
-      description,
-      durationMinutes,
-      price,
-    );
+    const command = new CreateServiceCommand(studioId, name, description, durationMinutes, price);
     return await this.commandBus.execute(command);
   }
 
@@ -73,7 +67,7 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateService(@Param() param: UpdateServiceRequestParam, @Body() body: UpdateServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async updateService(@Param() param: UpdateServiceRequestParam, @Body() body: UpdateServiceRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const { name, description, durationMinutes, price } = body;
     const command = new UpdateServiceCommand(studioId, id, name, description, durationMinutes, price);

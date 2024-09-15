@@ -7,16 +7,14 @@ import { ServiceRepository } from '../../interfaces/service.interface';
 import { ServiceViewModel } from '../../viewmodels/service.viewmodel';
 
 @QueryHandler(FindServiceQuery)
-export class FindServiceHandler
-  implements IQueryHandler<FindServiceQuery, ServiceViewModel[]> {
+export class FindServiceHandler implements IQueryHandler<FindServiceQuery, ServiceViewModel[]> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
   private readonly serviceRepository: ServiceRepository;
 
   async execute({ studioId }: FindServiceQuery): Promise<ServiceViewModel[]> {
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException();

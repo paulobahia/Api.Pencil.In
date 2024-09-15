@@ -7,18 +7,14 @@ import { EmployeeRepository } from '../../interfaces/employee-repository.interfa
 import { UpdateEmployeeModel } from '../../models/update-employee.model';
 
 @CommandHandler(UpdateEmployeeCommand)
-export class UpdateEmployeeHandler
-  implements ICommandHandler<UpdateEmployeeCommand, void>
-{
+export class UpdateEmployeeHandler implements ICommandHandler<UpdateEmployeeCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
 
   async execute(command: UpdateEmployeeCommand): Promise<void> {
-    const studio = await this.studioRepository.findById(
-      command.studioId,
-    );
+    const studio = await this.studioRepository.findById(command.studioId);
     const { studioId } = command;
 
     if (!studio) {

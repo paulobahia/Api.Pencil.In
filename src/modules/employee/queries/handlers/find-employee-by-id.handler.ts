@@ -7,16 +7,14 @@ import { EmployeeRepository } from '../../interfaces/employee-repository.interfa
 import { EmployeeViewModel } from '../../viewmodels/employee.viewmodel';
 
 @QueryHandler(FindEmployeeByIdQuery)
-export class FindEmployeeByIdHandler
-  implements IQueryHandler<FindEmployeeByIdQuery, EmployeeViewModel> {
+export class FindEmployeeByIdHandler implements IQueryHandler<FindEmployeeByIdQuery, EmployeeViewModel> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
 
   async execute({ id, studioId }: FindEmployeeByIdQuery): Promise<EmployeeViewModel> {
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException();

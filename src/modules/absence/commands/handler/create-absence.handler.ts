@@ -13,7 +13,6 @@ export class CreateAbsenceHandler implements ICommandHandler<CreateAbsenceComman
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
-
   @Inject(InjectionToken.ABSENCE_REPOSITORY)
   private readonly absenceRepository: AbsenceRepository;
 

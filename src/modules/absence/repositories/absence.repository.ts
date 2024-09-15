@@ -19,10 +19,6 @@ export class AbsenceRepositoryImplement implements AbsenceRepository {
       },
     });
 
-    if (!absences) {
-      return null;
-    }
-
     return absences
   }
 
@@ -60,9 +56,7 @@ export class AbsenceRepositoryImplement implements AbsenceRepository {
     const { id, date, reason } = absence;
 
     await this.prisma.absence.update({
-      where: {
-        id
-      },
+      where: { id },
       data: {
         date,
         reason

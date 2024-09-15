@@ -57,12 +57,7 @@ export class EmployeeController {
   @UseGuards(StudioIdGuard)
   async createEmployee(@Body() body: CreateEmployeeRequestDto, @StudioId() studioId: string,): Promise<void> {
     const { email, name, password } = body;
-    const command = new CreateEmployeeCommand(
-      studioId,
-      email,
-      name,
-      password,
-    );
+    const command = new CreateEmployeeCommand(studioId, email, name, password);
     return await this.commandBus.execute(command);
   }
 

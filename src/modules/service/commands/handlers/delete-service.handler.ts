@@ -6,9 +6,7 @@ import { InjectionToken } from 'src/modules/injection-token';
 import { ServiceRepository } from '../../interfaces/service.interface';
 
 @CommandHandler(DeleteServiceCommand)
-export class DeleteServiceHandler
-  implements ICommandHandler<DeleteServiceCommand, void>
-{
+export class DeleteServiceHandler implements ICommandHandler<DeleteServiceCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
@@ -16,8 +14,7 @@ export class DeleteServiceHandler
 
   async execute(command: DeleteServiceCommand): Promise<void> {
     const { id, studioId } = command;
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException();

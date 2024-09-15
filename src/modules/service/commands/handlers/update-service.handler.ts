@@ -7,9 +7,7 @@ import { ServiceRepository } from '../../interfaces/service.interface';
 import { UpdateServiceModel } from '../../models/update-service.model';
 
 @CommandHandler(UpdateServiceCommand)
-export class UpdateServiceHandler
-  implements ICommandHandler<UpdateServiceCommand, void>
-{
+export class UpdateServiceHandler implements ICommandHandler<UpdateServiceCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
