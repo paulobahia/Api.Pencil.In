@@ -4,6 +4,7 @@ import { StudioModule } from './modules/studio/studio.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { ServiceModule } from './modules/service/service.module';
 import { AbsenceModule } from './modules/absence/absence.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { AbsenceModule } from './modules/absence/absence.module';
     StudioModule,
     EmployeeModule,
     ServiceModule,
-    AbsenceModule
+    AbsenceModule,
+    UserModule
   ],
   providers: [],
 })
