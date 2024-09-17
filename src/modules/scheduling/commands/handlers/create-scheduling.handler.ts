@@ -7,7 +7,7 @@ import { SchedulingRepository } from '../../interfaces/scheduling-repository.int
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
 import { CreateSchedulingModel } from '../../models/create-scheduling.model';
 import { ServiceRepository } from 'src/modules/service/interfaces/service.interface';
-import { UserRepository } from 'src/modules/user/interfaces/user-repository.interface';
+import { ClientRepository } from 'src/modules/client/interfaces/client-repository.interface';
 
 @CommandHandler(CreateSchedulingCommand)
 export class CreateSchedulingHandler implements ICommandHandler<CreateSchedulingCommand, void> {
@@ -17,11 +17,11 @@ export class CreateSchedulingHandler implements ICommandHandler<CreateScheduling
   private readonly schedulingRepository: SchedulingRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
   private readonly serviceRepository: ServiceRepository;
-  @Inject(InjectionToken.USER_REPOSITORY)
-  private readonly userRepository: UserRepository
+  @Inject(InjectionToken.CLIENT_REPOSITORY)
+  private readonly clientRepository: ClientRepository
 
   async execute(command: CreateSchedulingCommand): Promise<void> {
-    const { studioId, userId, servicesIds } = command;
+    const { studioId, clientId, servicesIds } = command;
 
     const studio = await this.studioRepository.findById(studioId);
 
@@ -35,9 +35,9 @@ export class CreateSchedulingHandler implements ICommandHandler<CreateScheduling
       throw new NotFoundException('Um ou mais serviços');
     }
 
-    const user = await this.userRepository.findById(userId, studioId)
+    const client = await this.clientRepository.findById(clientId, studioId)
 
-    if (!user) {
+    if (!client) {
       throw new NotFoundException("Usuário")
     }
 

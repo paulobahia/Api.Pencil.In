@@ -3,13 +3,13 @@ import { CqrsModule } from "@nestjs/cqrs";
 import { PrismaService } from "src/infrastructure/database/prisma.service";
 import { InjectionToken } from "../injection-token";
 import { StudioRepositoryImplement } from "../studio/repositories/studio.repository";
-import { UserRepositoryImplement } from "./repositories/user.repository";
-import { CreateUserHandler } from "./commands/handlers/create-user.handler";
-import { DeleteUserHandler } from "./commands/handlers/delete-user.handler";
-import { UpdateUserHandler } from "./commands/handlers/update-user.handler";
-import { FindUserByIdHandler } from "./queries/handlers/find-employee-by-id.handler";
-import { FindUserHandler } from "./queries/handlers/find-employee.handler";
-import { UserController } from "./controllers/user.controller";
+import { ClientRepositoryImplement } from "./repositories/client.repository";
+import { CreateClientHandler } from "./commands/handlers/create-client.handler";
+import { DeleteClientHandler } from "./commands/handlers/delete-client.handler";
+import { UpdateClientHandler } from "./commands/handlers/update-client.handler";
+import { FindClientByIdHandler } from "./queries/handlers/find-employee-by-id.handler";
+import { FindClientHandler } from "./queries/handlers/find-employee.handler";
+import { ClientController } from "./controllers/client.controller";
 
 const infraestructure: Provider[] = [
   PrismaService,
@@ -18,22 +18,22 @@ const infraestructure: Provider[] = [
     useClass: StudioRepositoryImplement,
   },
   {
-    provide: InjectionToken.USER_REPOSITORY,
-    useClass: UserRepositoryImplement,
+    provide: InjectionToken.CLIENT_REPOSITORY,
+    useClass: ClientRepositoryImplement,
   },
 ];
 
 const application = [
-  FindUserHandler,
-  CreateUserHandler,
-  UpdateUserHandler,
-  FindUserByIdHandler,
-  DeleteUserHandler,
+  FindClientHandler,
+  CreateClientHandler,
+  UpdateClientHandler,
+  FindClientByIdHandler,
+  DeleteClientHandler,
 ];
 
 @Module({
   imports: [CqrsModule],
-  controllers: [UserController],
+  controllers: [ClientController],
   providers: [...application, ...infraestructure],
 })
-export class UserModule { }
+export class ClientModule { }

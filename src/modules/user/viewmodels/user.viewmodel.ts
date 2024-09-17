@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class UserViewModel {
+export class ClientViewModel {
   @ApiProperty()
   id: string;
 
@@ -16,11 +16,11 @@ export class UserViewModel {
   @ApiProperty()
   createdAt: string;
 
-  constructor(user: any) {
-    this.id = user.id;
-    this.name = user.name;
-    this.phone = user.phone;
-    this.studioId = user.studioId;
-    this.createdAt = new Date(user.createdAt).toLocaleDateString();
+  constructor(client: any) {
+    this.id = client.id;
+    this.name = client.name;
+    this.phone = client.phone;
+    this.studioId = client.studioId;
+    this.createdAt = new Date(client.createdAt).toLocaleDateString();
   }
 }

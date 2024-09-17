@@ -16,7 +16,7 @@ model Studio {
   employees            Employee[]
   calendarIntegrations CalendarIntegration[]
   services             Service[]             @relation("StudioServices")
-  User                 User[]
+  clients              Client[]
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
   isDeleted            Boolean               @default(false)
@@ -24,19 +24,32 @@ model Studio {
 }
 
 model Employee {
-  id               String            @id @default(uuid())
-  name             String
-  email            String            @unique
-  password         String
-  studio           Studio            @relation(fields: [studioId], references: [id], onDelete: Cascade)
-  studioId         String
-  absences         Absence[]
-  operatingHours   OperatingHour[]
-  employeeServices EmployeeService[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  isDeleted        Boolean           @default(false)
-  deletedAt        DateTime?
+  id              String            @id @default(uuid())
+  userId          String
+  studioId        String
+  user            User              @relation(fields: [userId], references: [id])
+  studio          Studio            @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  OperatingHour   OperatingHour[]
+  EmployeeService EmployeeService[]
+  Absence         Absence[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  isDeleted       Boolean           @default(false)
+  deletedAt       DateTime?
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  phone     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  isDeleted Boolean    @default(false)
+  deletedAt DateTime?
+  Employee  Employee[]
+  Client    Client[]
 }
 
 model OperatingHour {
@@ -107,10 +120,10 @@ model EmployeeService {
   deletedAt  DateTime?
 }
 
-model User {
+model Client {
   id          String       @id @default(uuid())
-  name        String
-  phone       String       @unique
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
   studio      Studio       @relation(fields: [studioId], references: [id], onDelete: Cascade)
   studioId    String
   schedulings Scheduling[]
@@ -122,8 +135,8 @@ model User {
 
 model Scheduling {
   id                String              @id @default(uuid())
-  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            String
+  client            Client              @relation(fields: [clientId], references: [id], onDelete: Cascade) // Associação com Client (antes era User)
+  clientId          String
   schedulingTime    DateTime
   status            SchedulingStatus
   SchedulingService SchedulingService[]
@@ -150,7 +163,7 @@ model CalendarIntegration {
   eventId      String
   status       String?
   createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   isDeleted    Boolean      @default(false)
   deletedAt    DateTime?
 }

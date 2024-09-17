@@ -4,31 +4,31 @@ import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiNotFoundRespo
 import { ResponseDescription } from "src/common/constants/response-description.enum";
 import { StudioId } from "src/common/decorators/studio-id.decorator";
 import { StudioIdGuard } from "src/shared/guards/studio-id.guard";
-import { UserViewModel } from "../viewmodels/user.viewmodel";
-import { CreateUserRequestDto } from "../dtos/create-user-request.dto";
-import { DeleteUserRequestDto } from "../dtos/delete-user-request-param.dto";
-import { FindUserByIdRequestParam } from "../dtos/find-user-by-id-request-param.dto";
-import { UpdateUserRequestParam } from "../dtos/update-user-request-param.dto";
-import { UpdateUserRequestDto } from "../dtos/update-user-request.dto";
-import { FindUserByIdQuery } from "../queries/implements/find-user-by-id.query";
-import { FindUserQuery } from "../queries/implements/find-user.query";
-import { CreateUserCommand } from "../commands/implements/create-user.command";
-import { DeleteUserCommand } from "../commands/implements/delete-user.command";
-import { UpdateUserCommand } from "../commands/implements/update-user.command";
+import { ClientViewModel } from "../viewmodels/client.viewmodel";
+import { CreateClientRequestDto } from "../dtos/create-client-request.dto";
+import { DeleteClientRequestDto } from "../dtos/delete-client-request-param.dto";
+import { FindClientByIdRequestParam } from "../dtos/find-client-by-id-request-param.dto";
+import { UpdateClientRequestParam } from "../dtos/update-client-request-param.dto";
+import { UpdateClientRequestDto } from "../dtos/update-client-request.dto";
+import { FindClientByIdQuery } from "../queries/implements/find-client-by-id.query";
+import { FindClientQuery } from "../queries/implements/find-client.query";
+import { CreateClientCommand } from "../commands/implements/create-client.command";
+import { DeleteClientCommand } from "../commands/implements/delete-client.command";
+import { UpdateClientCommand } from "../commands/implements/update-client.command";
 
-@ApiTags('User')
-@Controller('api/user')
-export class UserController {
+@ApiTags('Client')
+@Controller('api/client')
+export class ClientController {
   constructor(readonly commandBus: CommandBus, readonly queryBus: QueryBus) { }
 
   @Get()
-  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: [UserViewModel] })
+  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: [ClientViewModel] })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async getUser(@StudioId() studioId: string): Promise<UserViewModel> {
-    const query = new FindUserQuery(studioId);
+  async getClient(@StudioId() studioId: string): Promise<ClientViewModel> {
+    const query = new FindClientQuery(studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -38,9 +38,9 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async createUser(@Body() body: CreateUserRequestDto, @StudioId() studioId: string): Promise<void> {
+  async createClient(@Body() body: CreateClientRequestDto, @StudioId() studioId: string): Promise<void> {
     const { name, phone } = body;
-    const command = new CreateUserCommand(studioId, name, phone);
+    const command = new CreateClientCommand(studioId, name, phone);
     return await this.commandBus.execute(command);
   }
 
@@ -50,22 +50,22 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateUser(@Param() param: UpdateUserRequestParam, @Body() body: UpdateUserRequestDto, @StudioId() studioId: string): Promise<void> {
+  async updateClient(@Param() param: UpdateClientRequestParam, @Body() body: UpdateClientRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const { name, phone } = body;
-    const command = new UpdateUserCommand(studioId, id, name, phone);
+    const command = new UpdateClientCommand(studioId, id, name, phone);
     return await this.commandBus.execute(command);
   }
 
   @Get(':id')
-  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: UserViewModel, })
+  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: ClientViewModel, })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getUserById(@Param() param: FindUserByIdRequestParam, @StudioId() studioId: string,): Promise<UserViewModel> {
+  async getClientById(@Param() param: FindClientByIdRequestParam, @StudioId() studioId: string,): Promise<ClientViewModel> {
     const id = param.id;
-    const query = new FindUserByIdQuery(id, studioId);
+    const query = new FindClientByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
   }
 
@@ -75,9 +75,9 @@ export class UserController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteUser(@Param() param: DeleteUserRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteClient(@Param() param: DeleteClientRequestDto, @StudioId() studioId: string,): Promise<void> {
     const id = param.id;
-    const command = new DeleteUserCommand(id, studioId);
+    const command = new DeleteClientCommand(id, studioId);
     return await this.commandBus.execute(command);
   }
 }

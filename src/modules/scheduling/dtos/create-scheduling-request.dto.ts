@@ -5,7 +5,7 @@ import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 export class CreateSchedulingRequestDto {
   @ApiProperty()
   @IsString()
-  readonly userId: string;
+  readonly clientId: string;
 
   @ApiProperty()
   @IsString()

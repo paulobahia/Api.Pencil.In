@@ -7,7 +7,7 @@ import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface
 import { SchedulingRepository } from '../../interfaces/scheduling-repository.interface';
 import { UpdateSchedulingModel } from '../../models/update-scheduling.model';
 import { ServiceRepository } from 'src/modules/service/interfaces/service.interface';
-import { UserRepository } from 'src/modules/user/interfaces/user-repository.interface';
+import { ClientRepository } from 'src/modules/client/interfaces/client-repository.interface';
 
 @CommandHandler(UpdateSchedulingCommand)
 export class UpdateSchedulingHandler implements ICommandHandler<UpdateSchedulingCommand, void> {
@@ -17,8 +17,8 @@ export class UpdateSchedulingHandler implements ICommandHandler<UpdateScheduling
   private readonly schedulingRepository: SchedulingRepository;
   @Inject(InjectionToken.SERVICE_REPOSITORY)
   private readonly serviceRepository: ServiceRepository;
-  @Inject(InjectionToken.USER_REPOSITORY)
-  private readonly userRepository: UserRepository
+  @Inject(InjectionToken.CLIENT_REPOSITORY)
+  private readonly clientRepository: ClientRepository
 
   async execute(command: UpdateSchedulingCommand): Promise<void> {
     const { studioId, servicesIds } = command;

@@ -4,7 +4,7 @@ import { SchedulingStatus } from '@prisma/client';
 export class CreateSchedulingCommand implements ICommand {
   constructor(
     readonly studioId: string,
-    readonly userId: string,
+    readonly clientId: string,
     readonly servicesIds: string[],
     readonly schedulingTime: Date,
     readonly status: SchedulingStatus,

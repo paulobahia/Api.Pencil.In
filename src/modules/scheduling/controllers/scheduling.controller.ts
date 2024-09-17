@@ -39,8 +39,8 @@ export class SchedulingController {
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
   async createScheduling(@Body() body: CreateSchedulingRequestDto, @StudioId() studioId: string): Promise<void> {
-    const { userId, servicesIds, schedulingTime, staus, notes } = body;
-    const command = new CreateSchedulingCommand(studioId, userId, servicesIds, schedulingTime, staus, notes);
+    const { clientId, servicesIds, schedulingTime, staus, notes } = body;
+    const command = new CreateSchedulingCommand(studioId, clientId, servicesIds, schedulingTime, staus, notes);
     return await this.commandBus.execute(command);
   }
 

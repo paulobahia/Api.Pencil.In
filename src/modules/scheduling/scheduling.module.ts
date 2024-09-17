@@ -10,7 +10,7 @@ import { UpdateSchedulingHandler } from "./commands/handlers/update-scheduling.h
 import { FindSchedulingByIdHandler } from "./queries/handlers/find-scheduling-by-id.handler";
 import { FindSchedulingHandler } from "./queries/handlers/find-scheduling.handler";
 import { SchedulingController } from "./controllers/scheduling.controller";
-import { UserRepositoryImplement } from "../user/repositories/user.repository";
+import { ClientRepositoryImplement } from "../client/repositories/client.repository";
 import { ServiceRepositoryImplement } from "../service/repositories/service.repository";
 
 const infraestructure: Provider[] = [
@@ -28,8 +28,8 @@ const infraestructure: Provider[] = [
     useClass: ServiceRepositoryImplement,
   },
   {
-    provide: InjectionToken.USER_REPOSITORY,
-    useClass: UserRepositoryImplement,
+    provide: InjectionToken.CLIENT_REPOSITORY,
+    useClass: ClientRepositoryImplement,
   },
 ];
 

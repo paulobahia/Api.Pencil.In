@@ -1,11 +1,11 @@
-import { User } from '@prisma/client';
-import { CreateUserModel } from '../models/create-user.model';
-import { UpdateUserModel } from '../models/update-user.model';
+import { Client } from '@prisma/client';
+import { CreateClientModel } from '../models/create-client.model';
+import { UpdateClientModel } from '../models/update-client.model';
 
-export interface UserRepository {
-  find(studioId: string): Promise<User[]>;
-  findById(id: string,studioId: string,): Promise<User | null>;
-  create(user: CreateUserModel): Promise<void>;
-  update(user: UpdateUserModel): Promise<void>;
+export interface ClientRepository {
+  find(studioId: string): Promise<Client[]>;
+  findById(id: string,studioId: string,): Promise<Client | null>;
+  create(client: CreateClientModel): Promise<void>;
+  update(client: UpdateClientModel): Promise<void>;
   delete(id: string, studioId: string): Promise<void>;
 }

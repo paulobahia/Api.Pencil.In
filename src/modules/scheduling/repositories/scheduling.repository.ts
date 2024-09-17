@@ -13,10 +13,10 @@ export class SchedulingRepositoryImplement implements SchedulingRepository {
     const scheduling = await this.prisma.scheduling.findUnique({
       where: {
         id,
-        user: { studioId },
+        client: { studioId },
         isDeleted: false,
       },
-      include: { user: true }
+      include: { client: true }
     });
 
     if (!scheduling) {
@@ -29,21 +29,21 @@ export class SchedulingRepositoryImplement implements SchedulingRepository {
   async find(studioId: string): Promise<Scheduling[]> {
     const schedulings = await this.prisma.scheduling.findMany({
       where: {
-        user: { studioId },
+        client: { studioId },
         isDeleted: false,
       },
-      include: { user: true }
+      include: { client: true }
     });
 
     return schedulings
   }
 
   async create(scheduling: CreateSchedulingModel): Promise<void> {
-    const { userId, servicesIds, schedulingTime, notes, status } = scheduling;
+    const { clientId, servicesIds, schedulingTime, notes, status } = scheduling;
 
     await this.prisma.scheduling.create({
       data: {
-        user: { connect: { id: userId } },
+        client: { connect: { id: clientId } },
         schedulingTime,
         status,
         notes,

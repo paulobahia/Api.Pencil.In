@@ -1,13 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { SchedulingStatus } from "@prisma/client";
-import { UserViewModel as User } from "src/modules/user/viewmodels/user.viewmodel";
+import { ClientViewModel as Client } from "src/modules/client/viewmodels/client.viewmodel";
 
 export class SchedulingViewModel {
   @ApiProperty()
   id: string;
 
   @ApiProperty()
-  user: User;
+  client: Client;
 
   @ApiProperty()
   serviceId: string;
@@ -26,7 +26,7 @@ export class SchedulingViewModel {
 
   constructor(scheduling: any) {
     this.id = scheduling.id;
-    this.user = new User(scheduling.user);
+    this.client = new Client(scheduling.client);
     this.serviceId = scheduling.serviceId;
     this.schedulingTime = new Date(scheduling.createdAt).toLocaleDateString();
     this.status = scheduling.status;

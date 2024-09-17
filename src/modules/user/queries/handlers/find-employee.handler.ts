@@ -1,21 +1,21 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { FindUserQuery } from '../implements/find-user.query';
+import { FindClientQuery } from '../implements/find-client.query';
 import { Inject } from '@nestjs/common';
 import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
-import { UserRepository } from '../../interfaces/user-repository.interface';
+import { ClientRepository } from '../../interfaces/client-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
-import { UserViewModel } from '../../viewmodels/user.viewmodel';
+import { ClientViewModel } from '../../viewmodels/client.viewmodel';
 
-@QueryHandler(FindUserQuery)
-export class FindUserHandler
-  implements IQueryHandler<FindUserQuery, UserViewModel[]> {
+@QueryHandler(FindClientQuery)
+export class FindClientHandler
+  implements IQueryHandler<FindClientQuery, ClientViewModel[]> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
-  @Inject(InjectionToken.USER_REPOSITORY)
-  private readonly userRepository: UserRepository;
+  @Inject(InjectionToken.CLIENT_REPOSITORY)
+  private readonly clientRepository: ClientRepository;
 
-  async execute({ studioId }: FindUserQuery): Promise<UserViewModel[]> {
+  async execute({ studioId }: FindClientQuery): Promise<ClientViewModel[]> {
     const studio =
       await this.studioRepository.findById(studioId);
 
@@ -23,8 +23,8 @@ export class FindUserHandler
       throw new NotFoundException('Estúdio');
     }
 
-    const users = await this.userRepository.find(studioId);
+    const clients = await this.clientRepository.find(studioId);
 
-    return users.map(user => new UserViewModel(user))
+    return clients.map(client => new ClientViewModel(client))
   }
 }

@@ -1,20 +1,20 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { CreateUserCommand } from '../implements/create-user.command';
+import { CreateClientCommand } from '../implements/create-client.command';
 import { InjectionToken } from 'src/modules/injection-token';
 import { Inject } from '@nestjs/common';
 import { NotFoundException } from 'src/common/exceptions/not-found.exception';
-import { UserRepository } from '../../interfaces/user-repository.interface';
+import { ClientRepository } from '../../interfaces/client-repository.interface';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
-import { CreateUserModel } from '../../models/create-user.model';
+import { CreateClientModel } from '../../models/create-client.model';
 
-@CommandHandler(CreateUserCommand)
-export class CreateUserHandler implements ICommandHandler<CreateUserCommand, void> {
+@CommandHandler(CreateClientCommand)
+export class CreateClientHandler implements ICommandHandler<CreateClientCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
-  @Inject(InjectionToken.USER_REPOSITORY)
-  private readonly userRepository: UserRepository;
+  @Inject(InjectionToken.CLIENT_REPOSITORY)
+  private readonly clientRepository: ClientRepository;
 
-  async execute(command: CreateUserCommand): Promise<void> {
+  async execute(command: CreateClientCommand): Promise<void> {
     const { studioId } = command;
 
     const studio =
@@ -24,8 +24,8 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand, voi
       throw new NotFoundException('Estúdio');
     }
 
-    const createUser = new CreateUserModel(studioId, command);
+    const createClient = new CreateClientModel(studioId, command);
 
-    await this.userRepository.create(createUser);
+    await this.clientRepository.create(createClient);
   }
 }

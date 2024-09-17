@@ -4,7 +4,7 @@ import { StudioModule } from './modules/studio/studio.module';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { ServiceModule } from './modules/service/service.module';
 import { AbsenceModule } from './modules/absence/absence.module';
-import { UserModule } from './modules/user/user.module';
+import { ClientModule } from './modules/client/client.module';
 import { SchedulingModule } from './modules/scheduling/scheduling.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { SchedulingModule } from './modules/scheduling/scheduling.module';
     EmployeeModule,
     ServiceModule,
     AbsenceModule,
-    UserModule,
+    ClientModule,
     SchedulingModule
   ],
   providers: [],

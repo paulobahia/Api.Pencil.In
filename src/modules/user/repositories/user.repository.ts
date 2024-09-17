@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/database/prisma.service';
-import { UserRepository } from '../interfaces/user-repository.interface';
-import { CreateUserModel } from '../models/create-user.model';
-import { UpdateUserModel } from '../models/update-user.model';
-import { User } from '@prisma/client';
+import { ClientRepository } from '../interfaces/client-repository.interface';
+import { CreateClientModel } from '../models/create-client.model';
+import { UpdateClientModel } from '../models/update-client.model';
+import { Client } from '@prisma/client';
 
 @Injectable()
-export class UserRepositoryImplement implements UserRepository {
+export class ClientRepositoryImplement implements ClientRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async findById(id: string, studioId: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({
+  async findById(id: string, studioId: string): Promise<Client | null> {
+    const client = await this.prisma.client.findUnique({
       where: {
         id,
         studioId,
@@ -18,28 +18,28 @@ export class UserRepositoryImplement implements UserRepository {
       },
     });
 
-    if (!user) {
+    if (!client) {
       return null;
     }
 
-    return user
+    return client
   }
 
-  async find(studioId: string): Promise<User[]> {
-    const users = await this.prisma.user.findMany({
+  async find(studioId: string): Promise<Client[]> {
+    const clients = await this.prisma.client.findMany({
       where: {
         studioId,
         isDeleted: false,
       },
     });
 
-    return users
+    return clients
   }
 
-  async create(user: CreateUserModel): Promise<void> {
-    const { name, phone, studioId } = user;
+  async create(client: CreateClientModel): Promise<void> {
+    const { name, phone, studioId } = client;
 
-    await this.prisma.user.create({
+    await this.prisma.client.create({
       data: {
         name,
         phone,
@@ -48,10 +48,10 @@ export class UserRepositoryImplement implements UserRepository {
     });
   }
 
-  async update(user: UpdateUserModel) {
-    const { id, name, phone, studioId } = user;
+  async update(client: UpdateClientModel) {
+    const { id, name, phone, studioId } = client;
 
-    await this.prisma.user.update({
+    await this.prisma.client.update({
       where: {
         id,
         studioId,
@@ -64,7 +64,7 @@ export class UserRepositoryImplement implements UserRepository {
   }
 
   async delete(id: string, studioId: string) {
-    await this.prisma.user.update({
+    await this.prisma.client.update({
       where: {
         id,
         studioId,
