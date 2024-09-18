@@ -1,74 +1,67 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/database/prisma.service';
-import { ClientRepository } from '../interfaces/client-repository.interface';
-import { CreateClientModel } from '../models/create-client.model';
-import { UpdateClientModel } from '../models/update-client.model';
-import { Client } from '@prisma/client';
+import { UserRepository } from '../interfaces/user-repository.interface';
+import { CreateUserModel } from '../models/create-user.model';
+import { UpdateUserModel } from '../models/update-user.model';
+import { User } from '@prisma/client';
 
 @Injectable()
-export class ClientRepositoryImplement implements ClientRepository {
+export class UserRepositoryImplement implements UserRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async findById(id: string, studioId: string): Promise<Client | null> {
-    const client = await this.prisma.client.findUnique({
+  async findById(id: string): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({
       where: {
         id,
-        studioId,
         isDeleted: false,
       },
     });
 
-    if (!client) {
+    if (!user) {
       return null;
     }
 
-    return client
+    return user
   }
 
-  async find(studioId: string): Promise<Client[]> {
-    const clients = await this.prisma.client.findMany({
+  async find(): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
       where: {
-        studioId,
         isDeleted: false,
       },
     });
 
-    return clients
+    return users
   }
 
-  async create(client: CreateClientModel): Promise<void> {
-    const { name, phone, studioId } = client;
+  async create(user: CreateUserModel): Promise<void> {
+    const { email, name, password, phone } = user;
 
-    await this.prisma.client.create({
+    await this.prisma.user.create({
       data: {
         name,
-        phone,
-        studioId,
+        email,
+        password,
+        phone
       },
     });
   }
 
-  async update(client: UpdateClientModel) {
-    const { id, name, phone, studioId } = client;
+  async update(user: UpdateUserModel) {
+    const { id, email, name } = user;
 
-    await this.prisma.client.update({
-      where: {
-        id,
-        studioId,
-      },
+    await this.prisma.user.update({
+      where: { id },
       data: {
         name,
-        phone,
+        email,
       },
     });
   }
 
-  async delete(id: string, studioId: string) {
-    await this.prisma.client.update({
-      where: {
-        id,
-        studioId,
-      },
+  async delete(id: string) {
+    await this.prisma.user.update({
+      where: { id },
       data: {
         isDeleted: true,
         deletedAt: new Date(),

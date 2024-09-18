@@ -1,15 +1,13 @@
-import { UpdateClientCommand } from '../commands/implements/update-client.command';
+import { UpdateUserCommand } from '../commands/implements/update-user.command';
 
-export class UpdateClientModel {
+export class UpdateUserModel {
   readonly id: string;
   readonly name: string;
-  readonly phone: string;
-  readonly studioId: string;
+  readonly email: string;
 
-  constructor(studioId: string, client: UpdateClientCommand) {
-    this.id = client.id;
-    this.name = client.name;
-    this.phone = client.phone;
-    this.studioId = studioId;
+  constructor(user: UpdateUserCommand) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
   }
 }

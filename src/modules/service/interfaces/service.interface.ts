@@ -7,6 +7,6 @@ export interface ServiceRepository {
   findById(id: string, studioId: string,): Promise<Service | null>;
   findByIds(ids: string[], studioId: string): Promise<string[]>;
   create(service: CreateServiceModel): Promise<void>;
-  update(employee: UpdateServiceModel): Promise<void>;
+  update(user: UpdateServiceModel): Promise<void>;
   delete(id: string, studioId: string): Promise<void>;
 }

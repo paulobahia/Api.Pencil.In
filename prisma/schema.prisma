@@ -26,9 +26,9 @@ model Studio {
 model Employee {
   id              String            @id @default(uuid())
   userId          String
-  studioId        String
+  studioId        String?
   user            User              @relation(fields: [userId], references: [id])
-  studio          Studio            @relation(fields: [studioId], references: [id], onDelete: Cascade)
+  studio          Studio?           @relation(fields: [studioId], references: [id], onDelete: SetNull)
   OperatingHour   OperatingHour[]
   EmployeeService EmployeeService[]
   Absence         Absence[]
@@ -44,12 +44,11 @@ model User {
   email     String     @unique
   phone     String     @unique
   password  String
+  Employee  Employee[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   isDeleted Boolean    @default(false)
   deletedAt DateTime?
-  Employee  Employee[]
-  Client    Client[]
 }
 
 model OperatingHour {
@@ -122,8 +121,8 @@ model EmployeeService {
 
 model Client {
   id          String       @id @default(uuid())
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
+  name        String
+  phone       String       @unique
   studio      Studio       @relation(fields: [studioId], references: [id], onDelete: Cascade)
   studioId    String
   schedulings Scheduling[]
@@ -135,7 +134,7 @@ model Client {
 
 model Scheduling {
   id                String              @id @default(uuid())
-  client            Client              @relation(fields: [clientId], references: [id], onDelete: Cascade) // Associação com Client (antes era User)
+  client            Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId          String
   schedulingTime    DateTime
   status            SchedulingStatus
@@ -163,7 +162,7 @@ model CalendarIntegration {
   eventId      String
   status       String?
   createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  updatedAt    DateTime     @default(now())
   isDeleted    Boolean      @default(false)
   deletedAt    DateTime?
 }

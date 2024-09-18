@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsPhoneNumber, IsString } from 'class-validator';
+import { IsEmail, IsPhoneNumber, IsString } from 'class-validator';
 
-export class CreateClientRequestDto {
+export class CreateUserRequestDto {
   @ApiProperty()
   @IsString()
   readonly name: string;
@@ -9,4 +9,12 @@ export class CreateClientRequestDto {
   @ApiProperty()
   @IsPhoneNumber()
   readonly phone: string;
+
+  @ApiProperty()
+  @IsEmail()
+  readonly email: string;
+
+  @ApiProperty()
+  @IsString()
+  readonly password: string;
 }

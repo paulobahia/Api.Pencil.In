@@ -1,10 +1,9 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class CreateUserCommand implements ICommand {
+export class CreateClientCommand implements ICommand {
   constructor(
+    readonly studioId: string,
     readonly name: string,
-    readonly email: string,
-    readonly password: string,
     readonly phone: string,
   ) {}
 }

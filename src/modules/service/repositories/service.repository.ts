@@ -63,8 +63,8 @@ export class ServiceRepositoryImplement implements ServiceRepository {
     });
   }
 
-  async update(employee: UpdateServiceModel) {
-    const { id, name, description, durationMinutes, price, studioId } = employee;
+  async update(user: UpdateServiceModel) {
+    const { id, name, description, durationMinutes, price, studioId } = user;
 
     await this.prisma.service.update({
       where: {

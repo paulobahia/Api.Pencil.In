@@ -1,13 +1,15 @@
-import { CreateClientCommand } from '../commands/implements/create-client.command';
+import { CreateUserCommand } from '../commands/implements/create-user.command';
 
-export class CreateClientModel {
+export class CreateUserModel {
   readonly name: string;
+  readonly email: string;
+  readonly password: string;
   readonly phone: string;
-  readonly studioId: string;
 
-  constructor(studioId: string, Client: CreateClientCommand) {
-    this.name = Client.name;
-    this.phone = Client.phone;
-    this.studioId = studioId;
+  constructor(User: CreateUserCommand) {
+    this.name = User.name;
+    this.email = User.email;
+    this.password = User.password;
+    this.phone = User.phone;
   }
 }

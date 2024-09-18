@@ -1,35 +1,29 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UpdateClientCommand } from '../implements/update-client.command';
+import { UpdateUserCommand } from '../implements/update-user.command';
 import { Inject } from '@nestjs/common';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 import { InjectionToken } from 'src/modules/injection-token';
 import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface';
-import { ClientRepository } from '../../interfaces/client-repository.interface';
-import { UpdateClientModel } from '../../models/update-client.model';
-import { NotFoundException } from 'src/common/exceptions/not-found.exception';
+import { UserRepository } from '../../interfaces/user-repository.interface';
+import { UpdateUserModel } from '../../models/update-user.model';
 
-@CommandHandler(UpdateClientCommand)
-export class UpdateClientHandler implements ICommandHandler<UpdateClientCommand, void> {
+@CommandHandler(UpdateUserCommand)
+export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
-  @Inject(InjectionToken.CLIENT_REPOSITORY)
-  private readonly clientRepository: ClientRepository;
+  @Inject(InjectionToken.USER_REPOSITORY)
+  private readonly userRepository: UserRepository;
 
-  async execute(command: UpdateClientCommand): Promise<void> {
-    const studio = await this.studioRepository.findById(command.studioId,);
-    const { studioId } = command;
+  async execute(command: UpdateUserCommand): Promise<void> {
 
-    if (!studio) {
-      throw new NotFoundException('Estúdio');
+    const user = await this.userRepository.findById(command.id);
+
+    if (!user) {
+      throw new NotFoundException('Funcionário');
     }
 
-    const client = await this.clientRepository.findById(command.id, studioId);
+    const updateUser = new UpdateUserModel(command);
 
-    if (!client) {
-      throw new NotFoundException("Usuário");
-    }
-
-    const updateClient = new UpdateClientModel(studioId, command);
-
-    await this.clientRepository.update(updateClient);
+    await this.userRepository.update(updateUser);
   }
 }

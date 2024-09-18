@@ -1,15 +1,15 @@
-import { Module, Provider } from "@nestjs/common";
-import { CqrsModule } from "@nestjs/cqrs";
-import { PrismaService } from "src/infrastructure/database/prisma.service";
-import { InjectionToken } from "../injection-token";
-import { StudioRepositoryImplement } from "../studio/repositories/studio.repository";
-import { ClientRepositoryImplement } from "./repositories/client.repository";
-import { CreateClientHandler } from "./commands/handlers/create-client.handler";
-import { DeleteClientHandler } from "./commands/handlers/delete-client.handler";
-import { UpdateClientHandler } from "./commands/handlers/update-client.handler";
-import { FindClientByIdHandler } from "./queries/handlers/find-employee-by-id.handler";
-import { FindClientHandler } from "./queries/handlers/find-employee.handler";
-import { ClientController } from "./controllers/client.controller";
+import { Module, Provider } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
+import { UserController } from './controllers/user.controller';
+import { PrismaService } from 'src/infrastructure/database/prisma.service';
+import { StudioRepositoryImplement } from '../studio/repositories/studio.repository';
+import { FindUserHandler } from './queries/handlers/find-user.handler';
+import { UserRepositoryImplement } from './repositories/user.repository';
+import { InjectionToken } from '../injection-token';
+import { CreateUserHandler } from './commands/handlers/create-user.handler';
+import { UpdateUserHandler } from './commands/handlers/update-user.handler';
+import { FindUserByIdHandler } from './queries/handlers/find-user-by-id.handler';
+import { DeleteUserHandler } from './commands/handlers/delete-user.handler';
 
 const infraestructure: Provider[] = [
   PrismaService,
@@ -18,22 +18,22 @@ const infraestructure: Provider[] = [
     useClass: StudioRepositoryImplement,
   },
   {
-    provide: InjectionToken.CLIENT_REPOSITORY,
-    useClass: ClientRepositoryImplement,
+    provide: InjectionToken.USER_REPOSITORY,
+    useClass: UserRepositoryImplement,
   },
 ];
 
 const application = [
-  FindClientHandler,
-  CreateClientHandler,
-  UpdateClientHandler,
-  FindClientByIdHandler,
-  DeleteClientHandler,
+  FindUserHandler,
+  CreateUserHandler,
+  UpdateUserHandler,
+  FindUserByIdHandler,
+  DeleteUserHandler,
 ];
 
 @Module({
   imports: [CqrsModule],
-  controllers: [ClientController],
+  controllers: [UserController],
   providers: [...application, ...infraestructure],
 })
-export class ClientModule { }
+export class UserModule {}

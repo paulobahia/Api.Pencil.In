@@ -1,8 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class DeleteClientCommand implements ICommand {
+export class DeleteUserCommand implements ICommand {
   constructor(
-    readonly id: string,
-    readonly studioId: string,
-  ) {}
+    readonly id: string
+  ) { }
 }

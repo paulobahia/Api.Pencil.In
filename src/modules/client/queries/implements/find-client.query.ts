@@ -1,5 +1,5 @@
 import { IQuery } from '@nestjs/cqrs';
 
-export class FindEmployeeQuery implements IQuery {
+export class FindClientQuery implements IQuery {
   constructor(readonly studioId: string) {}
 }

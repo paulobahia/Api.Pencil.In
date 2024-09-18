@@ -1,34 +1,48 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiResponse, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
-import { ResponseDescription } from "src/common/constants/response-description.enum";
-import { StudioId } from "src/common/decorators/studio-id.decorator";
-import { StudioIdGuard } from "src/shared/guards/studio-id.guard";
-import { ClientViewModel } from "../viewmodels/client.viewmodel";
-import { CreateClientRequestDto } from "../dtos/create-client-request.dto";
-import { DeleteClientRequestDto } from "../dtos/delete-client-request-param.dto";
-import { FindClientByIdRequestParam } from "../dtos/find-client-by-id-request-param.dto";
-import { UpdateClientRequestParam } from "../dtos/update-client-request-param.dto";
-import { UpdateClientRequestDto } from "../dtos/update-client-request.dto";
-import { FindClientByIdQuery } from "../queries/implements/find-client-by-id.query";
-import { FindClientQuery } from "../queries/implements/find-client.query";
-import { CreateClientCommand } from "../commands/implements/create-client.command";
-import { DeleteClientCommand } from "../commands/implements/delete-client.command";
-import { UpdateClientCommand } from "../commands/implements/update-client.command";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { ResponseDescription } from 'src/common/constants/response-description.enum';
+import { FindUserQuery } from '../queries/implements/find-user.query';
+import { CreateUserCommand } from '../commands/implements/create-user.command';
+import { CreateUserRequestDto } from '../dtos/create-user-request.dto';
+import { UpdateUserRequestParam } from '../dtos/update-user-request.dto';
+import { UpdateUserRequestDto } from '../dtos/update-user-request-param.dto';
+import { UpdateUserCommand } from '../commands/implements/update-user.command';
+import { FindUserByIdQuery } from '../queries/implements/find-user-by-id.query';
+import { DeleteUserRequestDto } from '../dtos/delete-user-request-param.dto';
+import { DeleteUserCommand } from '../commands/implements/delete-user.command';
+import { FindUserByIdRequestParam } from '../dtos/find-user-by-id-request-param.dto';
+import { UserViewModel } from '../viewmodels/user.viewmodel';
 
-@ApiTags('Client')
-@Controller('api/client')
-export class ClientController {
+@ApiTags('User')
+@Controller('api/user')
+export class UserController {
   constructor(readonly commandBus: CommandBus, readonly queryBus: QueryBus) { }
 
   @Get()
-  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: [ClientViewModel] })
+  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: [UserViewModel] })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(StudioIdGuard)
-  async getClient(@StudioId() studioId: string): Promise<ClientViewModel> {
-    const query = new FindClientQuery(studioId);
+  async getUser(): Promise<UserViewModel[]> {
+    const query = new FindUserQuery();
     return await this.queryBus.execute(query);
   }
 
@@ -37,10 +51,9 @@ export class ClientController {
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  @UseGuards(StudioIdGuard)
-  async createClient(@Body() body: CreateClientRequestDto, @StudioId() studioId: string): Promise<void> {
-    const { name, phone } = body;
-    const command = new CreateClientCommand(studioId, name, phone);
+  async createUser(@Body() body: CreateUserRequestDto): Promise<void> {
+    const { email, name, phone, password } = body;
+    const command = new CreateUserCommand(email, name, password, phone);
     return await this.commandBus.execute(command);
   }
 
@@ -50,22 +63,22 @@ export class ClientController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateClient(@Param() param: UpdateClientRequestParam, @Body() body: UpdateClientRequestDto, @StudioId() studioId: string): Promise<void> {
+  async updateUser(@Param() param: UpdateUserRequestParam, @Body() body: UpdateUserRequestDto,): Promise<void> {
     const id = param.id;
-    const { name, phone } = body;
-    const command = new UpdateClientCommand(studioId, id, name, phone);
+    const { email, name } = body;
+    const command = new UpdateUserCommand(id, name, email);
     return await this.commandBus.execute(command);
   }
 
   @Get(':id')
-  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: ClientViewModel, })
+  @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: UserViewModel })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
-  @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getClientById(@Param() param: FindClientByIdRequestParam, @StudioId() studioId: string,): Promise<ClientViewModel> {
+  @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR })
+  async getUserById(@Param() param: FindUserByIdRequestParam): Promise<UserViewModel> {
     const id = param.id;
-    const query = new FindClientByIdQuery(id, studioId);
+    const query = new FindUserByIdQuery(id);
     return await this.queryBus.execute(query);
   }
 
@@ -73,11 +86,11 @@ export class ClientController {
   @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK })
   @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
-  @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
+  @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteClient(@Param() param: DeleteClientRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteUser(@Param() param: DeleteUserRequestDto,): Promise<void> {
     const id = param.id;
-    const command = new DeleteClientCommand(id, studioId);
+    const command = new DeleteUserCommand(id);
     return await this.commandBus.execute(command);
   }
 }

@@ -5,7 +5,7 @@ import { Inject } from "@nestjs/common";
 import { StudioRepository } from "src/modules/studio/interfaces/studio.interface";
 import { AbsenceRepository } from "../../interfaces/absence.interface";
 import { CreateAbsenceModel } from "../../models/create-absence.model";
-import { EmployeeRepository } from "src/modules/employee/interfaces/employee-repository.interface";
+import { EmployeeRepository } from "src/modules/employee/interfaces/employee.interface";
 import { NotFoundException } from "src/common/exceptions/not-found.exception";
 
 @CommandHandler(CreateAbsenceCommand)
@@ -26,7 +26,7 @@ export class CreateAbsenceHandler implements ICommandHandler<CreateAbsenceComman
       throw new NotFoundException('Estúdio');
     }
 
-    const employee = await this.employeeRepository.findById(command.employeeId, studioId)
+    const employee = await this.employeeRepository.findById(command.employeeId, command.studioId)
 
     if (!employee) {
       throw new NotFoundException('Funcionário');

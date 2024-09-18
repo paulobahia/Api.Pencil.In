@@ -1,4 +1,4 @@
-export class EmployeeEntity {
+export class UserEntity {
   id: string;
   name: string;
   email: string | null;
