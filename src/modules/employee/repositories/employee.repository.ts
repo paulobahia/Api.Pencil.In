@@ -36,6 +36,20 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     return employee
   }
 
+  async findByUserId(userId: string): Promise<Employee | null> {
+    const employee = await this.prisma.employee.findFirst({
+      where: {
+        userId
+      }
+    })
+
+    if (!employee) {
+      return null
+    }
+
+    return employee
+  }
+
   async create(employee: CreateEmployeeModel): Promise<void> {
     const { userId } = employee;
 
