@@ -29,7 +29,7 @@ model Employee {
   studioId        String?
   user            User              @relation(fields: [userId], references: [id])
   studio          Studio?           @relation(fields: [studioId], references: [id], onDelete: SetNull)
-  OperatingHour   OperatingHour[]
+  OperationHour   OperationHour[]
   EmployeeService EmployeeService[]
   Absence         Absence[]
   createdAt       DateTime          @default(now())
@@ -51,7 +51,7 @@ model User {
   deletedAt DateTime?
 }
 
-model OperatingHour {
+model OperationHour {
   id            String                   @id @default(uuid())
   employee      Employee                 @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId    String
@@ -60,17 +60,17 @@ model OperatingHour {
   isAbsence     Boolean                  @default(false)
   timeIntervals TimeInterval[]
   isDefault     Boolean                  @default(false)
-  exceptions    OperatingHourException[]
+  exceptions    OperationHourException[]
   createdAt     DateTime                 @default(now())
   updatedAt     DateTime                 @updatedAt
   isDeleted     Boolean                  @default(false)
   deletedAt     DateTime?
 }
 
-model OperatingHourException {
+model OperationHourException {
   id              String         @id @default(uuid())
-  operatingHour   OperatingHour  @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
-  operatingHourId String
+  operationHour   OperationHour  @relation(fields: [operationHourId], references: [id], onDelete: Cascade)
+  operationHourId String
   exceptionDate   DateTime
   timeIntervals   TimeInterval[]
   createdAt       DateTime       @default(now())
@@ -79,10 +79,10 @@ model OperatingHourException {
 
 model TimeInterval {
   id                       String                  @id @default(uuid())
-  operatingHour            OperatingHour           @relation(fields: [operatingHourId], references: [id], onDelete: Cascade)
-  operatingHourId          String
-  OperatingHourException   OperatingHourException? @relation(fields: [operatingHourExceptionId], references: [id])
-  operatingHourExceptionId String?
+  operationHour            OperationHour           @relation(fields: [operationHourId], references: [id], onDelete: Cascade)
+  operationHourId          String
+  OperationHourException   OperationHourException? @relation(fields: [operationHourExceptionId], references: [id])
+  operationHourExceptionId String?
   startTime                DateTime
   endTime                  DateTime
   createdAt                DateTime                @default(now())

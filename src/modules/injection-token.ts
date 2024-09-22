@@ -5,5 +5,6 @@ export enum InjectionToken {
   SERVICE_REPOSITORY = 'ServiceRepository',
   ABSENCE_REPOSITORY = 'AbsenceRepository',
   CLIENT_REPOSITORY = 'ClientRepository',
-  SCHEDULING_REPOSITORY = 'SchedulingRepository'
+  SCHEDULING_REPOSITORY = 'SchedulingRepository',
+  OPERATIONHOUR_REPOSITORY = 'OperationHour'
 }

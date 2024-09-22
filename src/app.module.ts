@@ -7,6 +7,7 @@ import { AbsenceModule } from './modules/absence/absence.module';
 import { ClientModule } from './modules/client/client.module';
 import { SchedulingModule } from './modules/scheduling/scheduling.module';
 import { EmployeeModule } from './modules/employee/employee.module';
+import { OperationHourModule } from './modules/operationHour/operationHour.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { EmployeeModule } from './modules/employee/employee.module';
     AbsenceModule,
     ClientModule,
     SchedulingModule,
-    EmployeeModule
+    EmployeeModule,
+    OperationHourModule
   ],
   providers: [],
 })
