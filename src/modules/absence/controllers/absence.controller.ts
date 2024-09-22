@@ -27,7 +27,7 @@ export class AbsenceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async getAbsence(@StudioId() studioId: string,): Promise<AbsenceViewModel> {
+  async getAbsence(@StudioId() studioId: string): Promise<AbsenceViewModel> {
     const query = new FindAbsenceQuery(studioId);
     return await this.queryBus.execute(query);
   }
@@ -38,7 +38,7 @@ export class AbsenceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @UseGuards(StudioIdGuard)
-  async createAbsence(@Body() body: CreateAbsenceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async createAbsence(@Body() body: CreateAbsenceRequestDto, @StudioId() studioId: string): Promise<void> {
     const { date, employeeId, reason } = body;
     const command = new CreateAbsenceCommand(studioId, employeeId, date, reason);
     return await this.commandBus.execute(command);
@@ -50,7 +50,7 @@ export class AbsenceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateAbsence(@Param() param: UpdateAbsenceRequestParam, @Body() body: UpdateAbsenceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async updateAbsence(@Param() param: UpdateAbsenceRequestParam, @Body() body: UpdateAbsenceRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const { employeeId, date, reason } = body;
     const command = new UpdateAbsenceCommand(studioId, id, employeeId, date, reason);
@@ -63,7 +63,7 @@ export class AbsenceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getAbsenceById(@Param() param: FindAbsenceByIdRequestParam, @StudioId() studioId: string,): Promise<AbsenceViewModel> {
+  async getAbsenceById(@Param() param: FindAbsenceByIdRequestParam, @StudioId() studioId: string): Promise<AbsenceViewModel> {
     const id = param.id;
     const query = new FindAbsenceByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
@@ -75,7 +75,7 @@ export class AbsenceController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteAbsence(@Param() param: DeleteAbsenceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteAbsence(@Param() param: DeleteAbsenceRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const command = new DeleteAbsenceCommand(id, studioId);
     return await this.commandBus.execute(command);

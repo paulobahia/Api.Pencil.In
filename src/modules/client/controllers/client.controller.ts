@@ -63,7 +63,7 @@ export class ClientController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getClientById(@Param() param: FindClientByIdRequestParam, @StudioId() studioId: string,): Promise<ClientViewModel> {
+  async getClientById(@Param() param: FindClientByIdRequestParam, @StudioId() studioId: string): Promise<ClientViewModel> {
     const id = param.id;
     const query = new FindClientByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
@@ -75,7 +75,7 @@ export class ClientController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteClient(@Param() param: DeleteClientRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteClient(@Param() param: DeleteClientRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const command = new DeleteClientCommand(id, studioId);
     return await this.commandBus.execute(command);

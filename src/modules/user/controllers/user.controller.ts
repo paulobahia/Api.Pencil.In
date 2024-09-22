@@ -63,7 +63,7 @@ export class UserController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateUser(@Param() param: UpdateUserRequestParam, @Body() body: UpdateUserRequestDto,): Promise<void> {
+  async updateUser(@Param() param: UpdateUserRequestParam, @Body() body: UpdateUserRequestDto): Promise<void> {
     const id = param.id;
     const { email, name } = body;
     const command = new UpdateUserCommand(id, name, email);
@@ -88,7 +88,7 @@ export class UserController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteUser(@Param() param: DeleteUserRequestDto,): Promise<void> {
+  async deleteUser(@Param() param: DeleteUserRequestDto): Promise<void> {
     const id = param.id;
     const command = new DeleteUserCommand(id);
     return await this.commandBus.execute(command);

@@ -19,7 +19,7 @@ export class UpdateAbsenceHandler
   private readonly employeeRepository: EmployeeRepository
 
   async execute(command: UpdateAbsenceCommand): Promise<void> {
-    const studio = await this.studioRepository.findById(command.studioId,);
+    const studio = await this.studioRepository.findById(command.studioId);
     const { employeeId, studioId } = command;
 
     if (!studio) {

@@ -63,7 +63,7 @@ export class SchedulingController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getSchedulingById(@Param() param: FindSchedulingByIdRequestParam, @StudioId() studioId: string,): Promise<SchedulingViewModel> {
+  async getSchedulingById(@Param() param: FindSchedulingByIdRequestParam, @StudioId() studioId: string): Promise<SchedulingViewModel> {
     const id = param.id;
     const query = new FindSchedulingByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
@@ -75,7 +75,7 @@ export class SchedulingController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteScheduling(@Param() param: DeleteSchedulingRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteScheduling(@Param() param: DeleteSchedulingRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const command = new DeleteSchedulingCommand(id, studioId);
     return await this.commandBus.execute(command);

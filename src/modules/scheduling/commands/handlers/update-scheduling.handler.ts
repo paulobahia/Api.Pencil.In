@@ -23,7 +23,7 @@ export class UpdateSchedulingHandler implements ICommandHandler<UpdateScheduling
   async execute(command: UpdateSchedulingCommand): Promise<void> {
     const { studioId, servicesIds } = command;
 
-    const studio = await this.studioRepository.findById(command.studioId,);
+    const studio = await this.studioRepository.findById(command.studioId);
 
     if (!studio) {
       throw new NotFoundException('Estúdio');

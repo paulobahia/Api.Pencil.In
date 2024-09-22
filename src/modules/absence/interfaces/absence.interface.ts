@@ -5,7 +5,7 @@ import { UpdateAbsenceModel } from '../models/update-absence.model';
 export interface AbsenceRepository {
   find(studioId: string): Promise<Absence[]>;
   findById(id: string, studioId: string): Promise<Absence | null>;
-  create(service: CreateAbsenceModel): Promise<void>;
+  create(absence: CreateAbsenceModel): Promise<void>;
   update(employee: UpdateAbsenceModel): Promise<void>;
   delete(id: string, studioId: string): Promise<void>;
 }

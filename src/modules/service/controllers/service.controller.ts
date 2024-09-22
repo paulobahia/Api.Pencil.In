@@ -80,7 +80,7 @@ export class ServiceController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async getServiceById(@Param() param: FindServiceByIdRequestParam, @StudioId() studioId: string,): Promise<ServiceViewModel> {
+  async getServiceById(@Param() param: FindServiceByIdRequestParam, @StudioId() studioId: string): Promise<ServiceViewModel> {
     const id = param.id;
     const query = new FindServiceByIdQuery(id, studioId);
     return await this.queryBus.execute(query);
@@ -92,7 +92,7 @@ export class ServiceController {
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
-  async deleteService(@Param() param: DeleteServiceRequestDto, @StudioId() studioId: string,): Promise<void> {
+  async deleteService(@Param() param: DeleteServiceRequestDto, @StudioId() studioId: string): Promise<void> {
     const id = param.id;
     const command = new DeleteServiceCommand(id, studioId);
     return await this.commandBus.execute(command);

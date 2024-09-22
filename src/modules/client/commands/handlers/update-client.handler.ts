@@ -15,7 +15,7 @@ export class UpdateClientHandler implements ICommandHandler<UpdateClientCommand,
   private readonly clientRepository: ClientRepository;
 
   async execute(command: UpdateClientCommand): Promise<void> {
-    const studio = await this.studioRepository.findById(command.studioId,);
+    const studio = await this.studioRepository.findById(command.studioId);
     const { studioId } = command;
 
     if (!studio) {

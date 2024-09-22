@@ -19,7 +19,7 @@ import { DeleteStudioCommand } from '../commands/implements/delete-studio.comman
 @ApiTags('Studio')
 @Controller('api/studio')
 export class StudioController {
-  constructor(readonly commandBus: CommandBus, readonly queryBus: QueryBus,) { }
+  constructor(readonly commandBus: CommandBus, readonly queryBus: QueryBus) { }
 
   @Get()
   @ApiResponse({ status: HttpStatus.OK, description: ResponseDescription.OK, type: StudioViewModel })
@@ -69,7 +69,7 @@ export class StudioController {
   @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
   @ApiNotFoundResponse({ description: ResponseDescription.NOT_FOUND })
   @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
-  async updateStudio(@Param() { id }: UpdateStudioRequestParam, @Body() body: UpdateStudioRequestDto,): Promise<void> {
+  async updateStudio(@Param() { id }: UpdateStudioRequestParam, @Body() body: UpdateStudioRequestDto): Promise<void> {
     const { name, address, description, phone } = body;
     const command = new UpdateStudioCommand(id, name, address, description, phone);
     return await this.commandBus.execute(command);
