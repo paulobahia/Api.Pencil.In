@@ -36,6 +36,21 @@ export class EmployeeRepositoryImplement implements EmployeeRepository {
     return employee
   }
 
+  async findByOnlyId(id: string): Promise<Employee | null> {
+    const employee = await this.prisma.employee.findUnique({
+      where: {
+        id,
+        isDeleted: false,
+      },
+    });
+
+    if (!employee) {
+      return null;
+    }
+
+    return employee
+  }
+
   async findByUserId(userId: string): Promise<Employee | null> {
     const employee = await this.prisma.employee.findFirst({
       where: {
