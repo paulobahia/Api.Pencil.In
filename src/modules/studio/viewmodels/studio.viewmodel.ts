@@ -20,12 +20,12 @@ export class StudioViewModel {
   @ApiProperty()
   createdAt: string;
 
-  constructor(service: any) {
-    this.id = service.id;
-    this.name = service.name;
-    this.address = service.address;
-    this.phone = service.phone;
-    this.description = service.description;
-    this.createdAt = new Date(service.createdAt).toLocaleDateString();
+  constructor(studio: any) {
+    this.id = studio.id;
+    this.name = studio.name;
+    this.address = studio.address;
+    this.phone = studio.phone;
+    this.description = studio.description;
+    this.createdAt = new Date(studio.createdAt).toLocaleDateString();
   }
 }
