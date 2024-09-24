@@ -55,7 +55,7 @@ model OperationHour {
   id            String                   @id @default(uuid())
   employee      Employee                 @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId    String
-  dayOfWeek     DayOfWeek
+  dayOfWeek     DayOfWeek[]
   specificDate  DateTime?
   isAbsence     Boolean                  @default(false)
   timeIntervals TimeInterval[]
@@ -67,6 +67,20 @@ model OperationHour {
   deletedAt     DateTime?
 }
 
+model TimeInterval {
+  id                       String                  @id @default(uuid())
+  operationHour            OperationHour           @relation(fields: [operationHourId], references: [id], onDelete: Cascade)
+  operationHourId          String
+  OperationHourException   OperationHourException? @relation(fields: [operationHourExceptionId], references: [id])
+  operationHourExceptionId String?
+  startTime                String
+  endTime                  String
+  createdAt                DateTime                @default(now())
+  updatedAt                DateTime                @updatedAt
+  isDeleted                Boolean                 @default(false)
+  deletedAt                DateTime?
+}
+
 model OperationHourException {
   id              String         @id @default(uuid())
   operationHour   OperationHour  @relation(fields: [operationHourId], references: [id], onDelete: Cascade)
@@ -75,20 +89,6 @@ model OperationHourException {
   timeIntervals   TimeInterval[]
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-}
-
-model TimeInterval {
-  id                       String                  @id @default(uuid())
-  operationHour            OperationHour           @relation(fields: [operationHourId], references: [id], onDelete: Cascade)
-  operationHourId          String
-  OperationHourException   OperationHourException? @relation(fields: [operationHourExceptionId], references: [id])
-  operationHourExceptionId String?
-  startTime                DateTime
-  endTime                  DateTime
-  createdAt                DateTime                @default(now())
-  updatedAt                DateTime                @updatedAt
-  isDeleted                Boolean                 @default(false)
-  deletedAt                DateTime?
 }
 
 model Service {
