@@ -16,8 +16,7 @@ export class FindClientHandler
   private readonly clientRepository: ClientRepository;
 
   async execute({ studioId }: FindClientQuery): Promise<ClientViewModel[]> {
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException('Estúdio');

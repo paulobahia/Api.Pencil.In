@@ -16,8 +16,7 @@ export class FindSchedulingHandler
   private readonly schedulingRepository: SchedulingRepository;
 
   async execute({ studioId }: FindSchedulingQuery): Promise<SchedulingViewModel[]> {
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException('Estúdio');

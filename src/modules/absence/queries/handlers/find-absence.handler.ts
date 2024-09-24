@@ -23,8 +23,6 @@ export class FindAbsenceHandler
 
     const absences = await this.absenceRepository.find(studioId)
 
-    console.log(absences)
-
     return absences.map(absence => new AbsenceViewModel(absence))
   }
 }

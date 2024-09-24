@@ -16,8 +16,7 @@ export class CreateServiceHandler implements ICommandHandler<CreateServiceComman
 
   async execute(command: CreateServiceCommand): Promise<void> {
     const { studioId } = command;
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException('Estúdio');

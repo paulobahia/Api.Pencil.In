@@ -17,8 +17,7 @@ export class CreateClientHandler implements ICommandHandler<CreateClientCommand,
   async execute(command: CreateClientCommand): Promise<void> {
     const { studioId } = command;
 
-    const studio =
-      await this.studioRepository.findById(studioId);
+    const studio = await this.studioRepository.findById(studioId);
 
     if (!studio) {
       throw new NotFoundException('Estúdio');
