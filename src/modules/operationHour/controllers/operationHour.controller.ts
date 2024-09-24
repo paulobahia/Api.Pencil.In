@@ -7,6 +7,10 @@ import { FindOperationHourQuery } from "../queries/implements/find-operationHour
 import { StudioId } from "src/common/decorators/studio-id.decorator";
 import { StudioIdGuard } from "src/shared/guards/studio-id.guard";
 import { FindOperationHourByEmployeeIdRequestParam } from "../dtos/find-operationHour-by-employeeId.param.dto";
+import { CreateOperationHourRequestDto } from "../dtos/create-operationHour.request.dto";
+import { EmployeeIdGuard } from "src/shared/guards/employee-id.guard";
+import { employeeId } from "src/common/decorators/employee-id.decorator";
+import { CreateOperationHourCommand } from "../commands/implements/create-operationHour.command";
 
 @ApiTags('OperationHour')
 @Controller('api/operationHour')
@@ -22,5 +26,18 @@ export class OperationHourController {
   async getOperationHourByEmployeeId(@Param() { employeeId }: FindOperationHourByEmployeeIdRequestParam, @StudioId() studioId: string): Promise<OperationHourViewModel[]> {
     const query = new FindOperationHourQuery(studioId, employeeId);
     return await this.queryBus.execute(query);
+  }
+
+  @Post()
+  @ApiResponse({ status: HttpStatus.CREATED, description: ResponseDescription.CREATED, })
+  @ApiBadRequestResponse({ description: ResponseDescription.BAD_REQUEST })
+  @ApiUnauthorizedResponse({ description: ResponseDescription.UNAUTHORIZED })
+  @ApiInternalServerErrorResponse({ description: ResponseDescription.INTERNAL_SERVER_ERROR, })
+  @UseGuards(StudioIdGuard)
+  @UseGuards(EmployeeIdGuard)
+  async createAbsence(@Body() body: CreateOperationHourRequestDto, @StudioId() studioId: string, @employeeId() employeeId: string): Promise<void> {
+    const { dayOfWeek, exceptions, isDefault, timeIntervals, specificDate } = body;
+    const command = new CreateOperationHourCommand(studioId, employeeId, dayOfWeek, isDefault, timeIntervals, exceptions, specificDate);
+    return await this.commandBus.execute(command);
   }
 }

@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { DayOfWeek } from "@prisma/client";
 import { TimeIntervalsViewModel } from "./timeIntervals.view.model";
+import { ExceptionsViewModel } from "./exceptions.viewmodel";
 
 export class OperationHourViewModel {
   @ApiProperty()
@@ -21,8 +22,8 @@ export class OperationHourViewModel {
   @ApiProperty()
   readonly isDefault: Boolean;
 
-  // @ApiProperty()
-  // readonly exceptions: Exceptions[];
+  @ApiProperty()
+  readonly exceptions: ExceptionsViewModel[];
 
   @ApiProperty()
   createdAt: string;
@@ -30,10 +31,15 @@ export class OperationHourViewModel {
   constructor(operationhour: any) {
     this.id = operationhour.id;
     this.dayOfWeek = operationhour.dayOfWeek;
-    this.specificDate = new Date(operationhour.specificDate).toLocaleDateString();
-    this.timeIntervals = operationhour.timeIntervals && operationhour.timeIntervals.map(timeInterval => new TimeIntervalsViewModel(timeInterval))
+    this.specificDate = this.formatDate(operationhour.specificDate);
+    this.timeIntervals = operationhour.timeIntervals.map(timeInterval => new TimeIntervalsViewModel(timeInterval))
+    this.exceptions = operationhour.exceptions.map(exception => new ExceptionsViewModel(exception))
     this.isAbsence = operationhour.isAbsence;
     this.isDefault = operationhour.isDefault;
     this.createdAt = new Date(operationhour.createdAt).toLocaleDateString();
+  }
+
+  private formatDate(date: Date | string): string {
+    return new Date(date).toLocaleDateString();
   }
 }
