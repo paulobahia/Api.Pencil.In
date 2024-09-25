@@ -19,6 +19,5 @@ export class CreateOperationHourCommand implements ICommand {
     readonly isDefault: boolean,
     readonly timeIntervals: CreateTimeIntervalsCommand[],
     readonly exceptions?: CreateExceptionsCommand[],
-    readonly specificDate?: Date
   ) { }
 }

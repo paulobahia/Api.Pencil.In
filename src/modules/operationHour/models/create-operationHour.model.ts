@@ -18,7 +18,6 @@ export class CreateOperationHourModel {
   readonly isDefault: boolean;
   readonly timeIntervals: CreateTimeIntervalsModel[];
   readonly exceptions?: CreateExceptionsModel[];
-  readonly specificDate?: Date
 
   constructor(studioId: string, employeeId: string, operationHour: CreateOperationHourCommand) {
     this.studioId = studioId;
@@ -27,6 +26,5 @@ export class CreateOperationHourModel {
     this.isDefault = operationHour.isDefault;
     this.timeIntervals = operationHour.timeIntervals;
     this.exceptions = operationHour.exceptions;
-    this.specificDate = operationHour.specificDate;
   }
 }

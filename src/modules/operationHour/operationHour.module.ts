@@ -8,6 +8,7 @@ import { FindOperationHourHandler } from './queries/handlers/find-operationHour.
 import { OperationHourRepositoryImplement } from './repositories/operationHour.repository';
 import { EmployeeRepositoryImplement } from '../employee/repositories/employee.repository';
 import { CreateOperationHourHandler } from './commands/handlers/create-operationHour.handler';
+import { UpdateOperationHourHandler } from './commands/handlers/update-operationHour.handler';
 
 const infraestructure: Provider[] = [
   PrismaService,
@@ -25,7 +26,7 @@ const infraestructure: Provider[] = [
   }
 ];
 
-const application = [FindOperationHourHandler, CreateOperationHourHandler];
+const application = [FindOperationHourHandler, CreateOperationHourHandler, UpdateOperationHourHandler];
 
 @Module({
   imports: [CqrsModule],

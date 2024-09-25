@@ -10,7 +10,7 @@ import { EmployeeRepository } from "src/modules/employee/interfaces/employee.int
 @QueryHandler(FindOperationHourQuery)
 export class FindOperationHourHandler implements IQueryHandler<FindOperationHourQuery, OperationHourViewModel[]> {
   @Inject(InjectionToken.OPERATIONHOUR_REPOSITORY)
-  private readonly operationhourRepository: OperationHourRepository;
+  private readonly operationHourRepository: OperationHourRepository;
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
   @Inject(InjectionToken.STUDIO_REPOSITORY)
@@ -29,8 +29,8 @@ export class FindOperationHourHandler implements IQueryHandler<FindOperationHour
       throw new NotFoundException('Estúdio');
     }
 
-    const operationhours = await this.operationhourRepository.find(studioId, employeeId)
+    const operationHours = await this.operationHourRepository.find(studioId, employeeId)
 
-    return operationhours.map(operationhour => new OperationHourViewModel(operationhour))
+    return operationHours.map(operationHour => new OperationHourViewModel(operationHour))
   }
 }

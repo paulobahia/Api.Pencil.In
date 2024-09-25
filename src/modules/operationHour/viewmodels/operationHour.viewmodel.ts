@@ -28,15 +28,15 @@ export class OperationHourViewModel {
   @ApiProperty()
   createdAt: string;
 
-  constructor(operationhour: any) {
-    this.id = operationhour.id;
-    this.dayOfWeek = operationhour.dayOfWeek;
-    this.specificDate = this.formatDate(operationhour.specificDate);
-    this.timeIntervals = operationhour.timeIntervals.map(timeInterval => new TimeIntervalsViewModel(timeInterval))
-    this.exceptions = operationhour.exceptions.map(exception => new ExceptionsViewModel(exception))
-    this.isAbsence = operationhour.isAbsence;
-    this.isDefault = operationhour.isDefault;
-    this.createdAt = new Date(operationhour.createdAt).toLocaleDateString();
+  constructor(operationHour: any) {
+    this.id = operationHour.id;
+    this.dayOfWeek = operationHour.dayOfWeek;
+    this.specificDate = this.formatDate(operationHour.specificDate);
+    this.timeIntervals = operationHour.timeIntervals.map(timeInterval => new TimeIntervalsViewModel(timeInterval))
+    this.exceptions = operationHour.exceptions.map(exception => new ExceptionsViewModel(exception))
+    this.isAbsence = operationHour.isAbsence;
+    this.isDefault = operationHour.isDefault;
+    this.createdAt = new Date(operationHour.createdAt).toLocaleDateString();
   }
 
   private formatDate(date: Date | string): string {

@@ -20,12 +20,7 @@ export class TimeIntervalsViewModel {
     this.id = timeIntervals.id;
     this.timeIntervalsId = timeIntervals.timeIntervalsId;
     this.timeIntervalsExceptionId = timeIntervals.timeIntervalsExceptionId;
-    this.startTime = this.formatTime(timeIntervals.startTime);
-    this.endTime = this.formatTime(timeIntervals.endTime);
-  }
-
-  private formatTime(time: Date | string): string {
-    const date = new Date(time);
-    return date.toUTCString().split(" ")[4];
+    this.startTime = timeIntervals.startTime;
+    this.endTime = timeIntervals.endTime;
   }
 }

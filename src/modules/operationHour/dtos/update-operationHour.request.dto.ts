@@ -1,9 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { DayOfWeek } from "@prisma/client";
-import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsEnum, IsMilitaryTime, IsOptional, IsString, IsTimeZone } from "class-validator";
+import { IsArray, IsBoolean, IsDate, IsEnum, IsMilitaryTime, IsOptional, IsString } from "class-validator";
 
 class TimeIntervals {
+  @ApiProperty()
+  @IsString()
+  readonly id: string;
+
   @ApiProperty()
   @IsMilitaryTime()
   readonly startTime: string;
@@ -15,6 +18,10 @@ class TimeIntervals {
 
 class Exceptions {
   @ApiProperty()
+  @IsString()
+  readonly id: string;
+
+  @ApiProperty()
   @IsDate()
   readonly exceptionDate: Date;
 
@@ -23,7 +30,7 @@ class Exceptions {
   readonly timeIntervals: TimeIntervals[];
 }
 
-export class CreateOperationHourRequestDto {
+export class UpdateOperationHourRequestDto {
   @ApiProperty({ enum: DayOfWeek, isArray: true })
   @IsArray()
   @IsEnum(DayOfWeek)

@@ -4,12 +4,12 @@ import { StudioRepository } from 'src/modules/studio/interfaces/studio.interface
 import { InjectionToken } from 'src/modules/injection-token';
 import { Inject } from '@nestjs/common';
 import { NotFoundException } from 'src/common/exceptions/not-found.exception';
-import { CreateOperationHourCommand } from '../implements/create-operationHour.command';
-import { CreateOperationHourModel } from '../../models/create-operationHour.model';
+import { UpdateOperationHourCommand } from '../implements/update-operationHour.command';
+import { UpdateOperationHourModel } from '../../models/update-operationHour.model';
 import { EmployeeRepository } from 'src/modules/employee/interfaces/employee.interface';
 
-@CommandHandler(CreateOperationHourCommand)
-export class CreateOperationHourHandler implements ICommandHandler<CreateOperationHourCommand, void> {
+@CommandHandler(UpdateOperationHourCommand)
+export class UpdateOperationHourHandler implements ICommandHandler<UpdateOperationHourCommand, void> {
   @Inject(InjectionToken.STUDIO_REPOSITORY)
   private readonly studioRepository: StudioRepository;
   @Inject(InjectionToken.OPERATIONHOUR_REPOSITORY)
@@ -17,7 +17,7 @@ export class CreateOperationHourHandler implements ICommandHandler<CreateOperati
   @Inject(InjectionToken.EMPLOYEE_REPOSITORY)
   private readonly employeeRepository: EmployeeRepository;
 
-  async execute(command: CreateOperationHourCommand): Promise<void> {
+  async execute(command: UpdateOperationHourCommand): Promise<void> {
     const { studioId, employeeId } = command;
     const studio = await this.studioRepository.findById(studioId);
 
@@ -31,8 +31,8 @@ export class CreateOperationHourHandler implements ICommandHandler<CreateOperati
       throw new NotFoundException('Fúncionario');
     }
 
-    const createOperationHour = new CreateOperationHourModel(studioId, employeeId, command);
+    const updateOperationHour = new UpdateOperationHourModel(studioId, employeeId, command);
 
-    await this.operationHourRepository.create(createOperationHour);
+    await this.operationHourRepository.update(updateOperationHour)
   }
 }

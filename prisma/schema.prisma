@@ -56,7 +56,6 @@ model OperationHour {
   employee      Employee                 @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   employeeId    String
   dayOfWeek     DayOfWeek[]
-  specificDate  DateTime?
   isAbsence     Boolean                  @default(false)
   timeIntervals TimeInterval[]
   isDefault     Boolean                  @default(false)
